@@ -1,0 +1,129 @@
+/* PAGE AUTH */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #141414;
+  padding: 20px;
+}
+
+/* CARD */
+.auth-card {
+  background-color: #1f1f1f;
+  padding: 32px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease;
+}
+
+/* TITRE */
+.auth-card h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+/* FORM */
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* INPUTS */
+.auth-card input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: #141414;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.auth-card input::placeholder {
+  color: #aaa;
+}
+
+.auth-card input:focus {
+  box-shadow: 0 0 0 2px #646bff;
+}
+
+/* BOUTON */
+.auth-card button {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.auth-card button:hover {
+  background-color: #005bb5;
+  transform: translateY(-1px);
+}
+
+/* LIENS */
+.auth-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.auth-link a {
+  color: #646bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* ERREUR */
+.auth-error {
+  background-color: rgba(229, 9, 20, 0.15);
+  color: #ff4d4d;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* SUCCESS */
+.auth-success {
+  background-color: rgba(26, 115, 232, 0.15);
+  color: #4da3ff;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px;
+  }
+}

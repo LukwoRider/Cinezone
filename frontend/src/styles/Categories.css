@@ -1,0 +1,92 @@
+.categories-page {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.categories-page h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.category-title svg {
+  color: #f4c542;
+}
+
+.add-category {
+  background-color: #646bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.categories-list {
+  list-style: none;
+  padding: 0;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.category-item button {
+  margin-left: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.category-item button:first-child {
+  background-color: #646bff;
+  color: #fff;
+}
+
+.category-item button:last-child {
+  background-color: #e50914;
+  color: #fff;
+}
+
+.category-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-form input {
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.category-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #646bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .categories-page {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}

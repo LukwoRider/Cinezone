@@ -1,0 +1,228 @@
+/* PAGE */
+.movie-details {
+  margin: 32px;
+  color: #fff;
+}
+
+/* Retour */
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #1a73e8;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Titre */
+.movie-title {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+}
+
+/* Layout principal */
+.movie-details-content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* Image */
+.movie-details-image {
+  width: 300px;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Infos */
+.movie-details-info {
+  flex: 1;
+}
+
+.movie-details-info p {
+  margin: 8px 0;
+  font-size: 1.05rem;
+  color: #ddd;
+}
+
+.movie-details-info strong {
+  color: #fff;
+}
+
+/* Note */
+.movie-details-rating {
+  font-size: 1.3rem;
+  margin-top: 12px;
+  color: #1a73e8;
+}
+
+/* Synopsis */
+.movie-synopsis {
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.movie-synopsis h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.movie-synopsis p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #ccc;
+  white-space: pre-line;
+}
+
+/* Boutons */
+.edit-button,
+.delete-button {
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.edit-button {
+  background-color: #1a73e8;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.edit-button:hover {
+  background-color: #005bb5;
+  transform: translateY(-1px);
+}
+
+.delete-button {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #ff1a1a;
+  transform: translateY(-1px);
+}
+
+.delete-button:disabled {
+  background-color: #ff9999;
+  cursor: not-allowed;
+}
+
+/* STATUS */
+.status {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 1.2rem;
+}
+
+.status.error {
+  color: #ff4d4d;
+}
+
+/* Favories */
+.movie-details {
+  position: relative;
+}
+
+.favorite-heart-details {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-size: 34px;
+  cursor: pointer;
+  color: rgba(196, 196, 196, 0.85);
+  transition: transform 0.25s ease, color 0.3s ease;
+  z-index: 5;
+}
+
+.favorite-heart-details:hover {
+  transform: scale(1.2);
+}
+
+.favorite-heart-details.active {
+  color: #ff2e63;
+  animation: heartPop 0.35s ease;
+}
+
+/* Etoile */
+
+.movie-details-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.star-icon {
+  color: #f5c518; /* jaune cinéma IMDB */
+  font-size: 1em;
+}
+
+/* ===================== */
+/* 📱 RESPONSIVE */
+/* ===================== */
+
+@media (max-width: 900px) {
+  .movie-details-content {
+    gap: 24px;
+  }
+
+  .movie-details-image {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-details {
+    margin: 20px;
+  }
+
+  .movie-details-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .movie-details-image {
+    width: 70%;
+    max-width: 280px;
+  }
+
+  .movie-details-info {
+    width: 100%;
+  }
+
+  .movie-details-info p {
+    font-size: 1rem;
+  }
+
+  .movie-details-rating {
+    justify-content: center;
+  }
+
+  .edit-button,
+  .delete-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-title {
+    font-size: 1.8rem;
+  }
+
+  .movie-details-image {
+    width: 100%;
+  }
+}

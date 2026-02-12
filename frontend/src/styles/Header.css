@@ -1,0 +1,99 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background-color: #0f0f0f;
+  border-bottom: 1px solid #222;
+  margin-bottom: 32px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* LOGO */
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo:hover {
+  color: #646bff;
+}
+
+.logo svg {
+  color: #1a73e8;
+  font-size: 1.8rem;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover svg {
+  transform: scale(1.1);
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  gap: 20px; /* réduit un peu l'espace pour plus de cohérence */
+  align-items: center; /* aligne tous les items verticalement */
+}
+
+.nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center; /* aligne le texte avec l'icône si besoin */
+}
+
+.nav a:hover {
+  color: #fff;
+}
+
+/* Lien actif */
+.nav a.active {
+  color: #646bff;
+  font-weight: bold;
+}
+
+/* Bouton de déconnexion */
+.logout-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* aligne l'icône verticalement */
+  gap: 5px; /* espace si texte à côté de l'icône plus tard */
+  transition: color 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: #ff4d4d;
+}
+
+/* S'assurer que l'icône est centrée */
+.nav svg {
+  vertical-align: middle;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 20px;
+  }
+
+  .nav {
+    gap: 15px;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+}

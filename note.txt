@@ -1,0 +1,61 @@
+mkdir backend
+npm init
+npm install express
+npm install --save-dev nodemon
+npm install dotenv
+npm run dev
+npm start
+Oublie pas package.json :
+"main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+
+npm start
+
+
+cd .\frontend
+npx create-vite@latest . -- --template react
+
+si erreur :
+cd ..
+mkdir "$env:USERPROFILE\AppData\Roaming\npm" -Force
+mkdir "$env:USERPROFILE\AppData\Roaming\npm-cache" -Force
+npm config set prefix "$env:USERPROFILE\AppData\Roaming\npm"
+
+Si node version 20 alors package?json :
+
+"devDependencies": {
+  "@vitejs/plugin-react": "^4.3.2",
+  "vite": "^5.4.10",
+  "@eslint/js": "^9.36.0",
+  "@types/react": "^19.1.16",
+  "@types/react-dom": "^19.1.9",
+  "eslint": "^9.36.0",
+  "eslint-plugin-react-hooks": "^5.2.0",
+  "eslint-plugin-react-refresh": "^0.4.22",
+  "globals": "^16.4.0"
+}
+
+
+Remove-Item -Recurse -Force node_modules, package-lock.json
+npm install
+npm run dev
+
+Version v2 frontend
+
+npm create vite@latest frontend
+npm run dev
+
+
+lancer le dev :
+
+lancer wampserver64
+phpmyadmin
+
+cd .\backend
+npm start
+
+cd cd .\frontend
+npm run dev
