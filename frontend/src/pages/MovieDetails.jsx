@@ -5,6 +5,7 @@ import Modal from "../components/Modal";
 import MovieForm from "./MovieForm";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
+import "../styles/global.css";
 
 function MovieDetails() {
   const { id } = useParams();
@@ -150,14 +151,14 @@ function MovieDetails() {
           </p>
 
           {user?.is_admin === 1 && (
-            <>
+            <div className="button-contain button-contain-details">
               <button className="edit-button" onClick={() => setIsEditModalOpen(true)}>
                 Modifier le film
               </button>
               <button className="delete-button" onClick={handleDelete} disabled={deleting}>
                 {deleting ? "Suppression..." : "Supprimer le film"}
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

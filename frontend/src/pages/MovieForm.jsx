@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import "../styles/MovieForm.css";
+import "../styles/global.css";
 
 function MovieForm({ onSuccess }) {
   const { id } = useParams();
@@ -124,9 +125,7 @@ function MovieForm({ onSuccess }) {
 
   return (
     <div className="add-movie">
-      {!onSuccess && (
-        <Link to="/" className="back-link">← Retour à l’accueil</Link>
-      )}
+
       <h1>{id ? "Modifier le film" : "Ajouter un film"}</h1>
 
       {error && <p className="status error">{error}</p>}
@@ -217,7 +216,7 @@ function MovieForm({ onSuccess }) {
           />
         </label>
 
-        <button type="submit" disabled={loading}>
+        <button className="edit-button" type="submit" disabled={loading}>
           {loading ? (id ? "Modification en cours..." : "Ajout en cours...") : (id ? "Modifier le film" : "Ajouter le film")}
         </button>
       </form>

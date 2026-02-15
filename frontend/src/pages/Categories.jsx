@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/Categories.css";
 import Modal from "../components/Modal";
 import { FaFolderOpen } from "react-icons/fa";
+import "../styles/global.css";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -91,7 +92,7 @@ function Categories() {
         Gestion des catégories
       </h1>
 
-      <button className="add-category" onClick={() => openModal()}>
+      <button className="edit-button" onClick={() => openModal()}>
         + Ajouter une catégorie
       </button>
 
@@ -99,9 +100,9 @@ function Categories() {
         {categories.map(cat => (
           <li key={cat.id} className="category-item">
             <span>{cat.name}</span>
-            <div>
-              <button onClick={() => openModal(cat)}>Modifier</button>
-              <button onClick={() => handleDelete(cat)}>Supprimer</button>
+            <div className="button-contain">
+              <button className="edit-button" onClick={() => openModal(cat)}>Modifier</button>
+              <button className="delete-button" onClick={() => handleDelete(cat)}>Supprimer</button>
             </div>
           </li>
         ))}
@@ -117,7 +118,7 @@ function Categories() {
             placeholder="Nom de la catégorie"
             required
           />
-          <button type="submit">
+          <button className="edit-button" type="submit">
             {editingCategory ? "Modifier" : "Ajouter"}
           </button>
         </form>

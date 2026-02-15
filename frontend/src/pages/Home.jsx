@@ -6,6 +6,7 @@ import MovieForm from "./MovieForm";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { useRef } from "react";
+import "../styles/global.css";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -224,7 +225,7 @@ function Home() {
           <option value="alpha_desc">Z → A</option>
         </select>
         {user && (
-          <label className="favorites-toggle" style={{ color: showFavorites ? "#1a73e8" : "#fff", cursor: "pointer" }}>
+          <label className="favorites-toggle" style={{ color: showFavorites ? " var(--primary)" : " var(--white);", cursor: "pointer" }}>
             <input type="checkbox" checked={showFavorites} onChange={e => setShowFavorites(e.target.checked)} />
             Favoris
           </label>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { register } from "../services/auth";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Auth.css";
+import "../styles/global.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -44,7 +45,6 @@ function Register() {
         <h2>Inscription</h2>
 
         {error && <div className="auth-error">{error}</div>}
-        {success && <div className="auth-success">{success}</div>}
 
         <form onSubmit={handleSubmit}>
           <input

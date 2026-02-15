@@ -1,6 +1,7 @@
 .footer {
-  background-color: #111;
-  color: white;
+  background-color: #0f0f0f;
+  border-top: 1px solid var(--border);
+  color: var(--white);
   padding: 20px 10px;
   margin-top: auto;
 }
@@ -20,16 +21,15 @@
 }
 
 .footer-links a {
-  color: #ccc;
+  color: var(--text-info);
   text-decoration: none;
   transition: 0.3s;
 }
 
 .footer-links a:hover {
-  color: #1a73e8;
+  color:  var(--primary);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;

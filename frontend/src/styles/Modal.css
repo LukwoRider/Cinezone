@@ -9,7 +9,7 @@
 }
 
 .modal-content {
-  background: #141414;
+  background: var(--bg-main);
   padding: 30px;
   border-radius: 12px;
   width: 100%;
@@ -26,20 +26,9 @@
   right: 12px;
   background: none;
   border: none;
-  color: #fff;
+  color:  var(--white);
   font-size: 1.3rem;
   cursor: pointer;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 @media (max-width: 600px) {
