@@ -1,15 +1,13 @@
-/* PAGE AUTH */
 .auth-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #141414;
+  background-color: var(--bg-main);
   padding: 20px;
 }
 
-/* CARD */
 .auth-card {
-  background-color: #1f1f1f;
+  background-color:  var(--bg-card);
   padding: 32px;
   border-radius: 12px;
   width: 100%;
@@ -18,29 +16,26 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* TITRE */
 .auth-card h2 {
   margin-bottom: 20px;
   text-align: center;
   font-size: 1.8rem;
-  color: #fff;
+  color:  var(--white);
 }
 
-/* FORM */
 .auth-card form {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-/* INPUTS */
 .auth-card input {
   padding: 12px 14px;
   border-radius: 8px;
   border: none;
   outline: none;
-  background-color: #141414;
-  color: #fff;
+  background-color: var(--bg-main);
+  color:  var(--white);
   font-size: 0.95rem;
   transition: box-shadow 0.2s ease;
 }
@@ -50,15 +45,14 @@
 }
 
 .auth-card input:focus {
-  box-shadow: 0 0 0 2px #646bff;
+  box-shadow: 0 0 0 2px  var(--accent);
 }
 
-/* BOUTON */
 .auth-card button {
   margin-top: 10px;
   padding: 12px;
-  background-color: #1a73e8;
-  color: #fff;
+  background-color:  var(--primary);
+  color:  var(--white);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -67,20 +61,19 @@
 }
 
 .auth-card button:hover {
-  background-color: #005bb5;
+  background-color:  var(--primary-hover);
   transform: translateY(-1px);
 }
 
-/* LIENS */
 .auth-link {
   margin-top: 16px;
   text-align: center;
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--text-info);
 }
 
 .auth-link a {
-  color: #646bff;
+  color:  var(--accent);
   text-decoration: none;
   font-weight: 500;
 }
@@ -89,39 +82,15 @@
   text-decoration: underline;
 }
 
-/* ERREUR */
 .auth-error {
   background-color: rgba(229, 9, 20, 0.15);
-  color: #ff4d4d;
+  color:  var(--danger);
   padding: 10px;
   border-radius: 6px;
   font-size: 0.85rem;
   text-align: center;
 }
 
-/* SUCCESS */
-.auth-success {
-  background-color: rgba(26, 115, 232, 0.15);
-  color: #4da3ff;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  text-align: center;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* RESPONSIVE */
 @media (max-width: 480px) {
   .auth-card {
     padding: 24px;

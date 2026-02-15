@@ -115,7 +115,7 @@ function Profile() {
           placeholder="Email"
         />
 
-        <button type="submit">Sauvegarder</button>
+        <button className="edit-button button-profil" type="submit">Sauvegarder</button>
       </form>
 
       <h3>Modifier le mot de passe</h3>
@@ -148,7 +148,7 @@ function Profile() {
           placeholder="Confirmer le nouveau mot de passe"
         />
 
-        <button type="submit">Changer le mot de passe</button>
+        <button className="edit-button button-profil" type="submit">Changer le mot de passe</button>
       </form>
     </div>
   );

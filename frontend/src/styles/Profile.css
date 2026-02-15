@@ -1,7 +1,7 @@
 .profile-container {
-    background-color: #141414;
+    background-color: var(--bg-main);
     border-radius: 12px;
-    color: #fff;
+    color:  var(--white);
     margin-left: auto;
     margin-right: auto;
 }
@@ -9,15 +9,13 @@
 .profile-container h2,
 .profile-container h3 {
     margin-bottom: 20px;
-    color: #646bff;
+    color:  var(--accent);
 }
 
-/* Séparer les sections */
 .profile-container h3 {
      margin-top: 30px;
 }
 
-/* FORM */
 .profile-form {
     display: flex;
     flex-direction: column;
@@ -28,51 +26,34 @@
 .profile-form label {
     font-size: 0.95rem;
     margin-bottom: 4px;
-    color: #ccc;
+    color: var(--text-info);
 }
 
 .profile-form input {
     padding: 10px 12px;
     border-radius: 8px;
     border: none;
-    background-color: #1f1f1f;
-    color: #fff;
+    background-color:  var(--bg-card);
+    color:  var(--white);
     font-size: 0.95rem;
     transition: box-shadow 0.2s ease, transform 0.1s ease;
 }
 
 .profile-form input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #646bff;
+    box-shadow: 0 0 0 2px  var(--accent);
     transform: scale(1.02);
 }
 
-/* BUTTON */
-.profile-form button {
-    padding: 10px 16px;
-    background-color: #646bff;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.profile-form button:hover {
-    background-color: #5058d4;
-    transform: translateY(-1px);
-}
-
-/* Responsive */
-@media (min-width: 769px) {
-    .profile-container {
-        width: 50%;
-    }
+.button-profil {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 768px) {
     .profile-container {
+        width: 50%;
         margin-left: 20px;
         margin-right: 20px;
     }

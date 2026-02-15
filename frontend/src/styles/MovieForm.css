@@ -1,17 +1,6 @@
 .add-movie {
   padding: 2rem;
-  color: white;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: #ffcc00;
-  text-decoration: none;
-}
-
-.back-link:hover {
-  text-decoration: underline;
+  color: var(--white);
 }
 
 .movie-form {
@@ -32,19 +21,4 @@
   border-radius: 6px;
   border: none;
   margin-top: 0.25rem;
-}
-
-.movie-form button {
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #1a73e8;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.movie-form button:disabled {
-  background-color: #88b0f0;
-  cursor: not-allowed;
 }
