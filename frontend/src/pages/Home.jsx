@@ -5,6 +5,7 @@ import Modal from "../components/Modal";
 import MovieForm from "./MovieForm";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
+import { useRef } from "react";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -27,6 +28,11 @@ function Home() {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
+
+  const [visibleCount, setVisibleCount] = useState(15);
+  const [hasMore, setHasMore] = useState(true);
+  const visibleMovies = filteredMovies.slice(0, visibleCount);
+  const observerRef = useRef();
 
   // 🔥 Charger les favoris et forcer en Number
   useEffect(() => {
@@ -159,6 +165,33 @@ function Home() {
     setFilteredMovies(result);
   }, [movies, search, selectedCategory, minRating, sortBy, showFavorites, favorites, token]);
 
+  useEffect(() => {
+    setVisibleCount(15);
+  }, [search, selectedCategory, minRating, sortBy, showFavorites]);
+
+  useEffect(() => {
+    setHasMore(visibleCount < filteredMovies.length);
+  }, [visibleCount, filteredMovies]);
+
+  useEffect(() => {
+    if (!hasMore) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount(prev => prev + 15);
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore]);
+
   if (loading) return <p className="status">Chargement...</p>;
   if (error) return <p className="status error">Erreur : {error}</p>;
 
@@ -199,7 +232,7 @@ function Home() {
       </div>
 
       <div className="movies-grid">
-        {filteredMovies.map(movie => (
+        {visibleMovies.map(movie => (
           <Link key={movie.id} to={`/movies/${movie.id}${location.search}`} className="movie-card">
             <div className="movie-card">
               {user && (
@@ -225,6 +258,7 @@ function Home() {
           </Link>
         ))}
       </div>
+      {hasMore && <div ref={observerRef} style={{ height: "40px" }} />}
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MovieForm onSuccess={() => {
