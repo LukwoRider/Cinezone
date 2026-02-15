@@ -8,6 +8,7 @@ import Categories from "./pages/Categories.jsx";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile.jsx";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+
+      <Footer />
     </div>
   );
 }
