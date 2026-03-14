@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import "../styles/Categories.css";
 import Modal from "../components/Modal";
 import { FaFolderOpen } from "react-icons/fa";
@@ -19,7 +19,7 @@ function Categories() {
 
   const fetchCategories = () => {
     setLoading(true);
-    fetch("http://localhost:3000/categories")
+    fetch("http://localhost:3300/categories")
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => setError(err.message))
@@ -42,8 +42,8 @@ function Categories() {
 
     try {
       const url = editingCategory
-        ? `http://localhost:3000/categories/${editingCategory.id}`
-        : "http://localhost:3000/categories";
+        ? `http://localhost:3300/categories/${editingCategory.id}`
+        : "http://localhost:3300/categories";
       const method = editingCategory ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -70,7 +70,7 @@ function Categories() {
     if (!isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/categories/${category.id}`, {
+      const res = await fetch(`http://localhost:3300/categories/${category.id}`, {
         method: "DELETE",
       });
       if (!res.ok) {

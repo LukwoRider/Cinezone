@@ -15,7 +15,7 @@ function Register() {
   });
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [setSuccess] = useState("");
 
   const handleChange = (e) => {
     setForm({

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+﻿import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { MdLocalMovies } from "react-icons/md";
 import { useState } from "react";
@@ -56,7 +56,7 @@ function Header() {
           >
             {user.avatar ? (
               <img
-                src={`http://localhost:3000${user.avatar}`}
+                src={`http://localhost:3300${user.avatar}`}
                 alt="Avatar"
                 className="nav-avatar"
               />

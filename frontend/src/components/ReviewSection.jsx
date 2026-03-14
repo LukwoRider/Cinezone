@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "../styles/Reviews.css";
 import { useToast } from "../contexts/ToastContext";
 import { useConfirm } from "../contexts/ConfirmContext";
 
-const API = "http://localhost:3000/reviews";
+const API = "http://localhost:3300/reviews";
 
 // Component for displaying, creating, editing, and deleting movie reviews
 function ReviewSection({ movieId, onReviewChange }) {
@@ -254,7 +254,7 @@ function ReviewSection({ movieId, onReviewChange }) {
                                 <div className="review-author">
                                     {review.avatar ? (
                                         <img
-                                            src={`http://localhost:3000${review.avatar}`}
+                                            src={`http://localhost:3300${review.avatar}`}
                                             alt="Avatar"
                                             className="review-avatar-img"
                                         />

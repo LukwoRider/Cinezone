@@ -1,4 +1,4 @@
-import "../styles/Footer.css";
+﻿import "../styles/Footer.css";
 
 function Footer() {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -9,8 +9,9 @@ function Footer() {
                 <p>© {new Date().getFullYear()} Cinezone. Tous droits réservés.</p>
                 <div className="footer-links">
                     <a href="/">Accueil</a>
-
-                    <a href="/profile">Profil</a>
+                    {user && (
+                        <a href="/profile">Profil</a>
+                    )}
                 </div>
             </div>
         </footer>
