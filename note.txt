@@ -14,6 +14,9 @@ Oublie pas package.json :
 
 npm start
 
+npm install --save-dev jest supertest
+Pour test unitaire
+
 
 cd .\frontend
 npx create-vite@latest . -- --template react
