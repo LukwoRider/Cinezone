@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import "../styles/MovieDetails.css";
 import Modal from "../components/Modal";
 import MovieForm from "./MovieForm";
+import ReviewSection from "../components/ReviewSection";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 import "../styles/global.css";
@@ -22,7 +23,7 @@ function MovieDetails() {
   const [favorites, setFavorites] = useState([]);
 
   // 🔥 Charger le film
-  useEffect(() => {
+  const fetchMovie = useCallback(() => {
     fetch(`http://localhost:3000/movies/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Film introuvable');
@@ -32,6 +33,10 @@ function MovieDetails() {
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, [id]);
+
+  useEffect(() => {
+    fetchMovie();
+  }, [fetchMovie]);
 
   // 🔥 Charger les favoris
   useEffect(() => {
@@ -163,14 +168,15 @@ function MovieDetails() {
         </div>
       </div>
 
+      {/* Section des avis */}
+      <ReviewSection movieId={id} onReviewChange={fetchMovie} />
+
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
         <MovieForm
           movie={movie}
           onSuccess={() => {
             setIsEditModalOpen(false);
-            fetch(`http://localhost:3000/movies/${id}`)
-              .then(res => res.json())
-              .then(data => setMovie({ ...data, id: Number(data.id) })); // ⚡ forcer Number
+            fetchMovie();
           }}
         />
       </Modal>

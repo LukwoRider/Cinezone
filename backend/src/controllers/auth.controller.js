@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { db } from "../db/database.js";
+import path from "path";
+import fs from "fs";
 
 // --- REGISTER ---
 export const register = async (req, res) => {
@@ -77,6 +79,7 @@ export const login = async (req, res) => {
         lastname: user.lastname,
         email: user.email,
         is_admin: user.is_admin,
+        avatar: user.avatar || null,
       },
     });
   } catch (err) {
@@ -100,7 +103,13 @@ export const updateProfile = async (req, res) => {
       [firstname, lastname, email, userId]
     );
 
-    res.json({ message: "Profil mis à jour avec succès" });
+    // Renvoyer l'user mis à jour (avec avatar)
+    const [rows] = await db.query(
+      "SELECT id, firstname, lastname, email, is_admin, avatar FROM users WHERE id = ?",
+      [userId]
+    );
+
+    res.json({ message: "Profil mis à jour avec succès", user: rows[0] });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
@@ -133,6 +142,35 @@ export const changePassword = async (req, res) => {
     await db.query("UPDATE users SET password_hash = ? WHERE id = ?", [hashed, userId]);
 
     res.json({ message: "Mot de passe modifié avec succès" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+// --- UPLOAD AVATAR ---
+export const uploadAvatar = async (req, res) => {
+  const userId = req.user.id;
+
+  if (!req.file) {
+    return res.status(400).json({ error: "Aucun fichier envoyé" });
+  }
+
+  try {
+    // Supprimer l'ancien avatar s'il existe
+    const [rows] = await db.query("SELECT avatar FROM users WHERE id = ?", [userId]);
+    if (rows[0]?.avatar) {
+      const oldPath = path.join(process.cwd(), rows[0].avatar);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+
+    const avatarPath = `/uploads/avatars/${req.file.filename}`;
+
+    await db.query("UPDATE users SET avatar = ? WHERE id = ?", [avatarPath, userId]);
+
+    res.json({ message: "Photo de profil mise à jour", avatar: avatarPath });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });

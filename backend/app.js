@@ -4,18 +4,21 @@ import moviesRouter from "./src/routes/movies.routes.js";
 import categoriesRouter from "./src/routes/categories.routes.js";
 import authRouter from "./src/routes/auth.routes.js";
 import favoritesRouter from "./src/routes/favorites.routes.js";
+import reviewsRouter from "./src/routes/reviews.routes.js";
 
 const app = express();
 
 // middlewares
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // routes
 app.use("/auth", authRouter);
 app.use("/favorites", favoritesRouter);
 app.use("/movies", moviesRouter);
 app.use("/categories", categoriesRouter);
+app.use("/reviews", reviewsRouter);
 
 // santé
 app.get("/test", (_req, res) => {
