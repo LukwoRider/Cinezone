@@ -25,18 +25,21 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': 'off'
     },
   },
+
   {
     files: ['cypress/**/*.js'],
     languageOptions: {
       globals: {
         cy: 'readonly',
+        Cypress: 'readonly',
         describe: 'readonly',
         it: 'readonly',
         beforeEach: 'readonly',
-        afterEach: 'readonly',
-      },
-    },
-  },
+        afterEach: 'readonly'
+      }
+    }
+  }
 ])
