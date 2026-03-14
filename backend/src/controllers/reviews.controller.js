@@ -1,5 +1,6 @@
 import { db } from "../db/database.js";
 
+// Recalculates and updates the average rating of a movie when reviews are added/modified
 async function recalcMovieRating(movieId) {
   await db.query(
     `UPDATE movies
@@ -9,6 +10,7 @@ async function recalcMovieRating(movieId) {
   );
 }
 
+// Retrieves all reviews for a specific movie with reviewer's details
 export const getMovieReviews = async (req, res) => {
   const { movieId } = req.params;
 
@@ -30,6 +32,7 @@ export const getMovieReviews = async (req, res) => {
   }
 };
 
+// Adds a new review for a movie
 export const addReview = async (req, res) => {
   const userId = req.user.id;
   const { movieId, rating, comment } = req.body;
@@ -68,6 +71,7 @@ export const addReview = async (req, res) => {
   }
 };
 
+// Updates an existing review (only allowed for the user who created it)
 export const updateReview = async (req, res) => {
   const userId = req.user.id;
   const reviewId = Number(req.params.id);
@@ -108,6 +112,7 @@ export const updateReview = async (req, res) => {
   }
 };
 
+// Deletes a review from the database
 export const deleteReview = async (req, res) => {
   const userId = req.user.id;
   const reviewId = Number(req.params.id);

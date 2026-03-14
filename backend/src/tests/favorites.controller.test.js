@@ -1,9 +1,5 @@
-// src/tests/favorites.controller.test.js
 import { jest } from "@jest/globals";
 
-/* ============================
-   MOCK DATABASE
-============================ */
 jest.unstable_mockModule("../db/database.js", () => ({
     db: { query: jest.fn() },
 }));
@@ -11,9 +7,6 @@ jest.unstable_mockModule("../db/database.js", () => ({
 const { db } = await import("../db/database.js");
 const { addFavorite, removeFavorite, getUserFavorites, isFavorite } = await import("../controllers/favorites.controller.js");
 
-/* ============================
-   HELPERS
-============================ */
 const mockResponse = () => {
     const res = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -25,9 +18,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-/* ============================
-   ADD FAVORITE
-============================ */
+// Test suite for managing user favorite movies
 describe("ADD FAVORITE", () => {
     it("should return 400 if movieId is missing", async () => {
         const req = { user: { id: 1 }, body: {} };
@@ -63,9 +54,6 @@ describe("ADD FAVORITE", () => {
     });
 });
 
-/* ============================
-   REMOVE FAVORITE
-============================ */
 describe("REMOVE FAVORITE", () => {
     it("should remove a favorite", async () => {
         db.query.mockResolvedValueOnce([]);
@@ -90,9 +78,6 @@ describe("REMOVE FAVORITE", () => {
     });
 });
 
-/* ============================
-   GET USER FAVORITES
-============================ */
 describe("GET USER FAVORITES", () => {
     it("should return user favorites list", async () => {
         const mockMovies = [
@@ -109,9 +94,6 @@ describe("GET USER FAVORITES", () => {
     });
 });
 
-/* ============================
-   IS FAVORITE
-============================ */
 describe("IS FAVORITE", () => {
     it("should return true if movie is a favorite", async () => {
         db.query.mockResolvedValueOnce([[{ id: 1 }]]);

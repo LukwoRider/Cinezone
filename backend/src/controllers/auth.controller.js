@@ -4,7 +4,7 @@ import { db } from "../db/database.js";
 import path from "path";
 import fs from "fs";
 
-// --- REGISTER ---
+// Handles new user registration (creates user and hashes password)
 export const register = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
 
@@ -37,7 +37,7 @@ export const register = async (req, res) => {
   }
 };
 
-// --- LOGIN ---
+// Authenticates user and generates a JWT token for session
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -88,9 +88,9 @@ export const login = async (req, res) => {
   }
 };
 
-// --- UPDATE PROFILE ---
+// Updates user information (firstname, lastname, email)
 export const updateProfile = async (req, res) => {
-  const userId = req.user.id; // récupéré depuis le middleware authenticate
+  const userId = req.user.id; // retrieved from authenticate middleware
   const { firstname, lastname, email } = req.body;
 
   if (!firstname || !lastname || !email) {
@@ -103,7 +103,7 @@ export const updateProfile = async (req, res) => {
       [firstname, lastname, email, userId]
     );
 
-    // Renvoyer l'user mis à jour (avec avatar)
+    // Return the updated user (including avatar)
     const [rows] = await db.query(
       "SELECT id, firstname, lastname, email, is_admin, avatar FROM users WHERE id = ?",
       [userId]
@@ -116,7 +116,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// --- CHANGE PASSWORD ---
+// Allows user to update their password securely
 export const changePassword = async (req, res) => {
   const userId = req.user.id;
   const { currentPassword, newPassword } = req.body;
@@ -148,7 +148,7 @@ export const changePassword = async (req, res) => {
   }
 };
 
-// --- UPLOAD AVATAR ---
+// Handles user profile picture upload and updates DB record
 export const uploadAvatar = async (req, res) => {
   const userId = req.user.id;
 
@@ -157,7 +157,7 @@ export const uploadAvatar = async (req, res) => {
   }
 
   try {
-    // Supprimer l'ancien avatar s'il existe
+    // Delete the previous avatar if it exists to save space
     const [rows] = await db.query("SELECT avatar FROM users WHERE id = ?", [userId]);
     if (rows[0]?.avatar) {
       const oldPath = path.join(process.cwd(), rows[0].avatar);

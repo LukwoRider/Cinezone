@@ -6,6 +6,7 @@ const ConfirmContext = createContext();
 
 export const useConfirm = () => useContext(ConfirmContext);
 
+// Provider component to manage global confirmation modals
 export const ConfirmProvider = ({ children }) => {
     const [confirmState, setConfirmState] = useState({
         isOpen: false,
@@ -13,6 +14,7 @@ export const ConfirmProvider = ({ children }) => {
         resolveCallback: null,
     });
 
+    // Opens a confirmation dialog and returns a Promise resolving to true/false based on user action
     const confirm = useCallback((message) => {
         return new Promise((resolve) => {
             setConfirmState({

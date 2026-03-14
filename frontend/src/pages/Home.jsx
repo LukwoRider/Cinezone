@@ -10,6 +10,7 @@ import "../styles/global.css";
 import { useToast } from "../contexts/ToastContext";
 
 function Home() {
+  // State for all movies and currently displayed subset based on filters
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -32,11 +33,13 @@ function Home() {
   const token = localStorage.getItem("token");
   const { showToast } = useToast();
 
+  // Infinite scroll tracking state
   const [visibleCount, setVisibleCount] = useState(15);
   const [hasMore, setHasMore] = useState(true);
   const visibleMovies = filteredMovies.slice(0, visibleCount);
   const observerRef = useRef();
 
+  // Fetch user favorites when token is available
   useEffect(() => {
     if (!token) return;
 
@@ -91,6 +94,7 @@ function Home() {
     }
   };
 
+  // Fetch all movies from the backend on initial load
   useEffect(() => {
     fetch('http://localhost:3000/movies')
       .then(res => res.json())
@@ -103,6 +107,7 @@ function Home() {
       .finally(() => setLoading(false));
   }, []);
 
+  // Fetch available categories for the filter dropdown
   useEffect(() => {
     fetch("http://localhost:3000/categories")
       .then(res => res.json())
@@ -120,6 +125,7 @@ function Home() {
     setSearchParams(params);
   }, [search, selectedCategory, minRating, sortBy, showFavorites, setSearchParams]);
 
+  // Apply local filtering, searching, and sorting logic whenever dependencies change
   useEffect(() => {
     let result = [...movies];
 
@@ -163,10 +169,12 @@ function Home() {
     setVisibleCount(15);
   }, [search, selectedCategory, minRating, sortBy, showFavorites]);
 
+  // Update "hasMore" state based on the number of filtered movies
   useEffect(() => {
     setHasMore(visibleCount < filteredMovies.length);
   }, [visibleCount, filteredMovies]);
 
+  // IntersectionObserver for infinite scrolling implementation
   useEffect(() => {
     if (!hasMore) return;
 

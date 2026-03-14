@@ -4,6 +4,7 @@ import { authenticate, requireAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
+// Get dashboard statistics (admin only)
 router.get("/", authenticate, requireAdmin, async (_req, res) => {
     try {
         const [[{ totalMovies }]] = await db.query("SELECT COUNT(*) AS totalMovies FROM movies");

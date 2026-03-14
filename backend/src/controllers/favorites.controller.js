@@ -1,5 +1,6 @@
 import { db } from "../db/database.js";
 
+// Adds a movie to the user's favorites
 export const addFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.body;
@@ -25,6 +26,7 @@ export const addFavorite = async (req, res) => {
   }
 };
 
+// Removes a movie from the user's favorites
 export const removeFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.params;
@@ -42,6 +44,7 @@ export const removeFavorite = async (req, res) => {
   }
 };
 
+// Retrieves all favorite movies for the authenticated user
 export const getUserFavorites = async (req, res) => {
   const userId = req.user.id;
 
@@ -63,6 +66,7 @@ export const getUserFavorites = async (req, res) => {
   }
 };
 
+// Checks if a specific movie is in the user's favorites
 export const isFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.params;

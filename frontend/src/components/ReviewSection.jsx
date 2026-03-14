@@ -7,6 +7,7 @@ import { useConfirm } from "../contexts/ConfirmContext";
 
 const API = "http://localhost:3000/reviews";
 
+// Component for displaying, creating, editing, and deleting movie reviews
 function ReviewSection({ movieId, onReviewChange }) {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
@@ -22,6 +23,7 @@ function ReviewSection({ movieId, onReviewChange }) {
     const [submitting, setSubmitting] = useState(false);
     const [editingId, setEditingId] = useState(null);
 
+    // Fetches all reviews for the current movie
     const fetchReviews = () => {
         fetch(`${API}/${movieId}`)
             .then((res) => res.json())
@@ -37,6 +39,7 @@ function ReviewSection({ movieId, onReviewChange }) {
     const existingReview = user
         ? reviews.find((r) => r.user_id === user.id)
         : null;
+    // Handle submission of a new review or edit of an existing review
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -92,6 +95,7 @@ function ReviewSection({ movieId, onReviewChange }) {
         }
     };
 
+    // Fills the form with existing review data for editing
     const startEdit = (review) => {
         setEditingId(review.id);
         setFormRating(review.rating);
@@ -101,12 +105,14 @@ function ReviewSection({ movieId, onReviewChange }) {
             ?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
 
+    // Resets the review form and clears edit mode
     const cancelEdit = () => {
         setEditingId(null);
         setFormRating(0);
         setFormComment("");
     };
 
+    // Prompts for confirmation and deletes the user's review
     const handleDelete = async (reviewId) => {
         const isConfirmed = await confirm("Supprimer votre avis ?");
         if (!isConfirmed) return;
@@ -131,6 +137,7 @@ function ReviewSection({ movieId, onReviewChange }) {
         }
     };
 
+    // Renders the interactive star rating selector for the review form
     const renderStarSelector = () => (
         <div className="star-selector">
             {[...Array(10)].map((_, i) => {
@@ -156,6 +163,7 @@ function ReviewSection({ movieId, onReviewChange }) {
         </div>
     );
 
+    // Renders static stars for displaying existing review ratings
     const renderStars = (rating) => (
         <div className="review-stars">
             {[...Array(10)].map((_, i) => (

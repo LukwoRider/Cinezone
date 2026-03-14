@@ -6,8 +6,10 @@ dotenv.config();
 
 const PORT = Number(process.env.PORT || 3000);
 
+// Initialize and start the server
 (async function start() {
   try {
+    // Tests database connection before starting the server
     await testDbConnection();
     app.listen(PORT, () => {
       console.log(`CineZone API on http://localhost:${PORT}`);

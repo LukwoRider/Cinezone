@@ -26,6 +26,7 @@ function MovieDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
+  // Fetch detailed information for the specific movie by ID
   const fetchMovie = useCallback(() => {
     fetch(`http://localhost:3000/movies/${id}`)
       .then(res => {
@@ -41,6 +42,7 @@ function MovieDetails() {
     fetchMovie();
   }, [fetchMovie]);
 
+  // Load user's favorite movies to check heart status
   useEffect(() => {
     if (!token) return;
 
@@ -52,6 +54,7 @@ function MovieDetails() {
       .catch(console.error);
   }, [token]);
 
+  // Add or remove the current movie from the user's favorites
   const toggleFavorite = async () => {
     if (!token || !movie) {
       showToast("Vous devez être connecté", "info");
@@ -91,6 +94,7 @@ function MovieDetails() {
     }
   };
 
+  // Confirm and handle the deletion of a movie (Admin only)
   const handleDelete = async () => {
     const isConfirmed = await confirm("Voulez-vous vraiment supprimer ce film ?");
     if (!isConfirmed) return;

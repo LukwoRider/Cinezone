@@ -6,9 +6,11 @@ const ToastContext = createContext();
 
 export const useToast = () => useContext(ToastContext);
 
+// Provider component that wraps the app and provides the Toast context
 export const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
 
+    // Function to display a new toast message (auto-removes after 3 seconds)
     const showToast = useCallback((message, type = "info") => {
         const id = Date.now() + Math.random();
         setToasts((prev) => [...prev, { id, message, type }]);

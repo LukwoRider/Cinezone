@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 
+// Middleware to authenticate users via JWT token
 export const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -18,6 +19,7 @@ export const authenticate = (req, res, next) => {
   }
 };
 
+// Middleware to restrict access to admin users only
 export const requireAdmin = (req, res, next) => {
   if (!req.user?.is_admin) {
     return res.status(403).json({ error: "Accès admin requis" });

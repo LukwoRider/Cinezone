@@ -10,7 +10,6 @@ import { authenticate } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.get("/:movieId", getMovieReviews);
-
 router.post("/", authenticate, addReview);
 router.put("/:id", authenticate, updateReview);
 router.delete("/:id", authenticate, deleteReview);
