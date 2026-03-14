@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import "../styles/MovieForm.css";
 import "../styles/global.css";
@@ -25,7 +25,7 @@ function MovieForm({ onSuccess, id: propId }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
+    fetch("http://localhost:3300/categories")
       .then(res => {
         if (!res.ok) throw new Error("Impossible de charger les catégories");
         return res.json();
@@ -37,7 +37,7 @@ function MovieForm({ onSuccess, id: propId }) {
   useEffect(() => {
     if (!actualId) return;
 
-    fetch(`http://localhost:3000/movies/${actualId}`)
+    fetch(`http://localhost:3300/movies/${actualId}`)
       .then(res => {
         if (!res.ok) throw new Error("Film introuvable");
         return res.json();
@@ -86,7 +86,7 @@ function MovieForm({ onSuccess, id: propId }) {
 
     setLoading(true);
     try {
-      const url = actualId ? `http://localhost:3000/movies/${actualId}` : "http://localhost:3000/movies";
+      const url = actualId ? `http://localhost:3300/movies/${actualId}` : "http://localhost:3300/movies";
       const method = actualId ? "PUT" : "POST";
 
       const res = await fetch(url, {

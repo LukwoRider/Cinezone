@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdDelete, MdPerson } from "react-icons/md";
 import "../../styles/AdminUsers.css";
@@ -25,7 +25,7 @@ function AdminUsers() {
 
     const fetchUsers = () => {
         setLoading(true);
-        fetch("http://localhost:3000/users", {
+        fetch("http://localhost:3300/users", {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(async res => {
@@ -57,7 +57,7 @@ function AdminUsers() {
         if (!isConfirmed) return;
 
         try {
-            const res = await fetch(`http://localhost:3000/users/${userId}`, {
+            const res = await fetch(`http://localhost:3300/users/${userId}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -140,7 +140,7 @@ function AdminUsers() {
                                         <div className="user-cell-info">
                                             {u.avatar ? (
                                                 <img
-                                                    src={`http://localhost:3000${u.avatar}`}
+                                                    src={`http://localhost:3300${u.avatar}`}
                                                     alt={`${u.firstname} ${u.lastname}`}
                                                     className="user-avatar"
                                                 />

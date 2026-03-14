@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdAdd, MdEdit, MdDelete, MdCategory } from "react-icons/md";
 import "../../styles/AdminCategories.css";
@@ -29,7 +29,7 @@ function AdminCategories() {
 
     const fetchCategories = () => {
         setLoading(true);
-        fetch("http://localhost:3000/categories")
+        fetch("http://localhost:3300/categories")
             .then(res => res.json())
             .then(data => setCategories(data))
             .catch(console.error)
@@ -45,7 +45,7 @@ function AdminCategories() {
         if (!isConfirmed) return;
 
         try {
-            const res = await fetch(`http://localhost:3000/categories/${categoryId}`, {
+            const res = await fetch(`http://localhost:3300/categories/${categoryId}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -71,8 +71,8 @@ function AdminCategories() {
 
         try {
             const url = editingCategory
-                ? `http://localhost:3000/categories/${editingCategory.id}`
-                : "http://localhost:3000/categories";
+                ? `http://localhost:3300/categories/${editingCategory.id}`
+                : "http://localhost:3300/categories";
             const method = editingCategory ? "PUT" : "POST";
 
             const res = await fetch(url, {

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+﻿import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import "../styles/MovieDetails.css";
 import Modal from "../components/Modal";
@@ -28,7 +28,7 @@ function MovieDetails() {
 
   // Fetch detailed information for the specific movie by ID
   const fetchMovie = useCallback(() => {
-    fetch(`http://localhost:3000/movies/${id}`)
+    fetch(`http://localhost:3300/movies/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Film introuvable');
         return res.json();
@@ -46,7 +46,7 @@ function MovieDetails() {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://localhost:3000/favorites", {
+    fetch("http://localhost:3300/favorites", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -67,8 +67,8 @@ function MovieDetails() {
     try {
       const res = await fetch(
         isFav
-          ? `http://localhost:3000/favorites/${movieId}`
-          : `http://localhost:3000/favorites`,
+          ? `http://localhost:3300/favorites/${movieId}`
+          : `http://localhost:3300/favorites`,
         {
           method: isFav ? "DELETE" : "POST",
           headers: {
@@ -101,7 +101,7 @@ function MovieDetails() {
 
     setDeleting(true);
     try {
-      const res = await fetch(`http://localhost:3000/movies/${id}`, { method: 'DELETE' });
+      const res = await fetch(`http://localhost:3300/movies/${id}`, { method: 'DELETE' });
       if (res.status === 204) {
         showToast("Film supprimé !", "success");
         navigate("/");

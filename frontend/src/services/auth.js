@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/auth";
+﻿const API_URL = "http://localhost:3300/auth";
 
 // Register a new user with provided data (firstname, lastname, email, password)
 export async function register(userData) {

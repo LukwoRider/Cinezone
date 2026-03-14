@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import "../styles/Home.css";
+﻿import { useEffect, useState } from 'react';
+import "../styles/home.css";
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import Modal from "../components/Modal";
 import MovieForm from "./MovieForm";
@@ -43,7 +43,7 @@ function Home() {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://localhost:3000/favorites", {
+    fetch("http://localhost:3300/favorites", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -68,8 +68,8 @@ function Home() {
     try {
       const res = await fetch(
         isFav
-          ? `http://localhost:3000/favorites/${movieId}`
-          : `http://localhost:3000/favorites`,
+          ? `http://localhost:3300/favorites/${movieId}`
+          : `http://localhost:3300/favorites`,
         {
           method: isFav ? "DELETE" : "POST",
           headers: {
@@ -96,7 +96,7 @@ function Home() {
 
   // Fetch all movies from the backend on initial load
   useEffect(() => {
-    fetch('http://localhost:3000/movies')
+    fetch('http://localhost:3300/movies')
       .then(res => res.json())
       .then(data => {
         const moviesWithNumberIds = data.map(movie => ({ ...movie, id: Number(movie.id) }));
@@ -109,7 +109,7 @@ function Home() {
 
   // Fetch available categories for the filter dropdown
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
+    fetch("http://localhost:3300/categories")
       .then(res => res.json())
       .then(setCategories)
       .catch(err => console.error(err));
@@ -265,7 +265,7 @@ function Home() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MovieForm onSuccess={() => {
           setIsModalOpen(false);
-          fetch('http://localhost:3000/movies')
+          fetch('http://localhost:3300/movies')
             .then(res => res.json())
             .then(data => {
               const moviesWithNumberIds = data.map(movie => ({ ...movie, id: Number(movie.id) }));

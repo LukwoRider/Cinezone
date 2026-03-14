@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdMovie, MdCategory, MdPeople, MdAdminPanelSettings, MdAdd, MdHome } from "react-icons/md";
 import "../../styles/AdminDashboard.css";
@@ -28,7 +28,7 @@ function AdminDashboard() {
     // Fetch overview statistics for the admin dashboard
     const fetchStats = () => {
         if (!token) return;
-        fetch("http://localhost:3000/stats", {
+        fetch("http://localhost:3300/stats", {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())
@@ -47,7 +47,7 @@ function AdminDashboard() {
         if (!categoryName.trim()) return;
 
         try {
-            const res = await fetch("http://localhost:3000/categories", {
+            const res = await fetch("http://localhost:3300/categories", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
