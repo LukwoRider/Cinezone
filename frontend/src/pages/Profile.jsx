@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+﻿import { useState, useRef } from "react";
 import { FiCamera } from "react-icons/fi";
 import "../styles/Profile.css";
 import { useToast } from "../contexts/ToastContext";
@@ -38,7 +38,7 @@ function Profile() {
     formData.append("avatar", file);
 
     try {
-      const res = await fetch("http://localhost:3000/auth/profile/avatar", {
+      const res = await fetch("http://localhost:3300/auth/profile/avatar", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ function Profile() {
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/auth/profile", {
+      const res = await fetch("http://localhost:3300/auth/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ function Profile() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/auth/profile/password", {
+      const res = await fetch("http://localhost:3300/auth/profile/password", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +133,7 @@ function Profile() {
         <div className="profile-avatar-wrapper" onClick={() => fileInputRef.current?.click()}>
           {user.avatar ? (
             <img
-              src={`http://localhost:3000${user.avatar}`}
+              src={`http://localhost:3300${user.avatar}`}
               alt="Avatar"
               className="profile-avatar-img"
             />

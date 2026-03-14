@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import "../../styles/AdminMovies.css";
@@ -29,7 +29,7 @@ function AdminMovies() {
 
     const fetchMovies = () => {
         setLoading(true);
-        fetch("http://localhost:3000/movies")
+        fetch("http://localhost:3300/movies")
             .then(res => res.json())
             .then(data => setMovies(data))
             .catch(console.error)
@@ -45,7 +45,7 @@ function AdminMovies() {
         if (!isConfirmed) return;
 
         try {
-            const res = await fetch(`http://localhost:3000/movies/${movieId}`, {
+            const res = await fetch(`http://localhost:3300/movies/${movieId}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });

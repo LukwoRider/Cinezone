@@ -5,17 +5,31 @@ services:
     image: mysql:8
     container_name: cinezone-db
     restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: cinezone
       MYSQL_USER: cinezone_user
       MYSQL_PASSWORD: cinezone_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
       # To initialize your schema automatically, put your .sql files in ./db/init.sql and uncomment the line below:
-      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: cinezone-pma
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
 
   backend:
     build:
@@ -33,7 +47,7 @@ services:
       JWT_EXPIRES_IN: "24h"
       # If you use Multer uploads, make sure to mount a volume to persist them
     ports:
-      - "3000:3000"
+      - "3300:3000"
     volumes:
       - ./backend/uploads:/usr/src/app/uploads
     depends_on:
@@ -46,7 +60,7 @@ services:
     container_name: cinezone-frontend
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - backend
 

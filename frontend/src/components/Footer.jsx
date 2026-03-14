@@ -1,4 +1,4 @@
-import "../styles/Footer.css";
+﻿import "../styles/Footer.css";
 
 function Footer() {
     const user = JSON.parse(localStorage.getItem("user"));
