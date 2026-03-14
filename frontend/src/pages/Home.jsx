@@ -35,7 +35,6 @@ function Home() {
   const visibleMovies = filteredMovies.slice(0, visibleCount);
   const observerRef = useRef();
 
-  // 🔥 Charger les favoris et forcer en Number
   useEffect(() => {
     if (!token) return;
 
@@ -44,13 +43,11 @@ function Home() {
     })
       .then(res => res.json())
       .then(data => {
-        const ids = data.map(fav => Number(fav.id || fav.movie_id)); // ⚡ forcer Number
+        const ids = data.map(fav => Number(fav.id || fav.movie_id));
         setFavorites(ids);
       })
       .catch(err => console.error(err));
   }, [token]);
-
-  // ❤️ Toggle favori
   const toggleFavorite = async (movieId, e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -60,7 +57,7 @@ function Home() {
       return;
     }
 
-    movieId = Number(movieId); // ⚡ forcer Number
+    movieId = Number(movieId);
     const isFav = favorites.includes(movieId);
 
     try {
@@ -84,7 +81,6 @@ function Home() {
         return;
       }
 
-      // 🔹 Mettre à jour le local state immédiatement
       setFavorites(prev =>
         isFav ? prev.filter(id => id !== movieId) : [...prev, movieId]
       );
@@ -93,12 +89,10 @@ function Home() {
     }
   };
 
-  // 🔄 Charger tous les films
   useEffect(() => {
     fetch('http://localhost:3000/movies')
       .then(res => res.json())
       .then(data => {
-        // ⚡ forcer tous les ids en Number
         const moviesWithNumberIds = data.map(movie => ({ ...movie, id: Number(movie.id) }));
         setMovies(moviesWithNumberIds);
         setFilteredMovies(moviesWithNumberIds);
@@ -107,7 +101,6 @@ function Home() {
       .finally(() => setLoading(false));
   }, []);
 
-  // 🔄 Charger catégories
   useEffect(() => {
     fetch("http://localhost:3000/categories")
       .then(res => res.json())
@@ -115,7 +108,6 @@ function Home() {
       .catch(err => console.error(err));
   }, []);
 
-  // 🔄 Synchroniser params URL
   useEffect(() => {
     const params = {};
     if (search) params.search = search;
@@ -126,7 +118,6 @@ function Home() {
     setSearchParams(params);
   }, [search, selectedCategory, minRating, sortBy, showFavorites, setSearchParams]);
 
-  // 🔄 Filtrer et trier
   useEffect(() => {
     let result = [...movies];
 
@@ -216,7 +207,7 @@ function Home() {
         </select>
         <select value={minRating} onChange={e => setMinRating(Number(e.target.value))}>
           <option value="0">Toutes les notes</option>
-          {[1,2,3,4,5,6,7,8,9].map(n => <option key={n} value={n}>⭐ {n}+</option>)}
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => <option key={n} value={n}>⭐ {n}+</option>)}
         </select>
         <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
           <option value="date_desc">Année ↓</option>

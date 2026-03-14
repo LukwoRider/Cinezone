@@ -1,0 +1,189 @@
+.admin-movies-page {
+    width: 90%;
+    margin: 0 auto;
+    padding: 32px;
+    color: var(--white);
+}
+
+.admin-movies-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.admin-movies-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-info);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.add-button:hover {
+    background: var(--primary-hover);
+}
+
+.admin-movies-search {
+    margin-bottom: 24px;
+}
+
+.admin-search-input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--white);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.admin-search-input::placeholder {
+    color: var(--text-info);
+}
+
+.movies-list-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.no-movies {
+    padding: 32px;
+    text-align: center;
+    color: var(--text-info);
+}
+
+.movies-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.movie-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease;
+}
+
+.movie-list-item:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.movie-list-item:last-child {
+    border-bottom: none;
+}
+
+.movie-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.movie-thumbnail {
+    width: 48px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.movie-thumbnail.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-info);
+    text-transform: uppercase;
+}
+
+.movie-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--white);
+}
+
+.movie-meta {
+    font-size: 0.85rem;
+    color: var(--text-info);
+}
+
+.movie-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+.action-button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+.action-button.edit {
+    background: rgba(26, 115, 232, 0.15);
+    color: var(--primary);
+}
+
+.action-button.delete {
+    background: rgba(255, 77, 77, 0.15);
+    color: var(--danger);
+}

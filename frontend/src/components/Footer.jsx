@@ -5,18 +5,14 @@ function Footer() {
 
     return (
         <footer className="footer">
-        <div className="footer-content">
-            <p>© {new Date().getFullYear()} Cinezone. Tous droits réservés.</p>
-            <div className="footer-links">
-            <a href="/">Accueil</a>
+            <div className="footer-content">
+                <p>© {new Date().getFullYear()} Cinezone. Tous droits réservés.</p>
+                <div className="footer-links">
+                    <a href="/">Accueil</a>
 
-            {user?.is_admin === 1 && (
-                <a href="/categories">Catégories</a>
-            )}
-
-            <a href="/profile">Profil</a>
+                    <a href="/profile">Profil</a>
+                </div>
             </div>
-        </div>
         </footer>
     );
 }

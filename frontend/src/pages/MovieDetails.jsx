@@ -22,14 +22,13 @@ function MovieDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
-  // 🔥 Charger le film
   const fetchMovie = useCallback(() => {
     fetch(`http://localhost:3000/movies/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Film introuvable');
         return res.json();
       })
-      .then(data => setMovie({ ...data, id: Number(data.id) })) // ⚡ forcer id number
+      .then(data => setMovie({ ...data, id: Number(data.id) }))
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, [id]);
@@ -38,7 +37,6 @@ function MovieDetails() {
     fetchMovie();
   }, [fetchMovie]);
 
-  // 🔥 Charger les favoris
   useEffect(() => {
     if (!token) return;
 
@@ -46,11 +44,10 @@ function MovieDetails() {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
-      .then(data => setFavorites(data.map(fav => Number(fav.id || fav.movie_id)))) // ⚡ forcer Number
+      .then(data => setFavorites(data.map(fav => Number(fav.id || fav.movie_id))))
       .catch(console.error);
   }, [token]);
 
-  // ❤️ Toggle favori
   const toggleFavorite = async () => {
     if (!token || !movie) {
       alert("Vous devez être connecté");
@@ -81,7 +78,6 @@ function MovieDetails() {
         return;
       }
 
-      // 🔹 Mise à jour immédiate du state favorites
       setFavorites(prev =>
         isFav ? prev.filter(id => id !== movieId) : [...prev, movieId]
       );
@@ -91,7 +87,6 @@ function MovieDetails() {
     }
   };
 
-  // 🔥 Supprimer le film
   const handleDelete = async () => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce film ?")) return;
 
@@ -168,7 +163,6 @@ function MovieDetails() {
         </div>
       </div>
 
-      {/* Section des avis */}
       <ReviewSection movieId={id} onReviewChange={fetchMovie} />
 
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>

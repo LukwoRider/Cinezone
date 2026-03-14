@@ -1,9 +1,5 @@
 import { db } from "../db/database.js";
 
-/**
- * Recalcule le rating d'un film à partir de la moyenne des avis.
- * Si aucun avis, le rating passe à 0.
- */
 async function recalcMovieRating(movieId) {
   await db.query(
     `UPDATE movies
@@ -13,7 +9,6 @@ async function recalcMovieRating(movieId) {
   );
 }
 
-// --- Récupérer tous les avis d'un film ---
 export const getMovieReviews = async (req, res) => {
   const { movieId } = req.params;
 
@@ -35,7 +30,6 @@ export const getMovieReviews = async (req, res) => {
   }
 };
 
-// --- Ajouter un avis ---
 export const addReview = async (req, res) => {
   const userId = req.user.id;
   const { movieId, rating, comment } = req.body;
@@ -74,7 +68,6 @@ export const addReview = async (req, res) => {
   }
 };
 
-// --- Modifier son propre avis ---
 export const updateReview = async (req, res) => {
   const userId = req.user.id;
   const reviewId = Number(req.params.id);
@@ -90,7 +83,6 @@ export const updateReview = async (req, res) => {
   }
 
   try {
-    // Vérifier que l'avis appartient bien à l'utilisateur
     const [rows] = await db.query(
       "SELECT movie_id FROM reviews WHERE id = ? AND user_id = ?",
       [reviewId, userId]
@@ -116,13 +108,11 @@ export const updateReview = async (req, res) => {
   }
 };
 
-// --- Supprimer son propre avis ---
 export const deleteReview = async (req, res) => {
   const userId = req.user.id;
   const reviewId = Number(req.params.id);
 
   try {
-    // Récupérer le movie_id avant suppression pour recalculer le rating
     const [rows] = await db.query(
       "SELECT movie_id FROM reviews WHERE id = ? AND user_id = ?",
       [reviewId, userId]

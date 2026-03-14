@@ -8,6 +8,10 @@ import Categories from "./pages/Categories.jsx";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import AdminMovies from "./pages/admin/AdminMovies.jsx";
+import AdminCategories from "./pages/admin/AdminCategories.jsx";
+import AdminUsers from "./pages/admin/AdminUsers.jsx";
 import Footer from "./components/Footer";
 
 function App() {
@@ -24,6 +28,10 @@ function App() {
         <Route path="/movies/:id" element={<MovieDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/movies" element={<AdminMovies />} />
+        <Route path="/admin/categories" element={<AdminCategories />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
       </Routes>
 
       <Footer />

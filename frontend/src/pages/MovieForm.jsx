@@ -3,8 +3,9 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import "../styles/MovieForm.css";
 import "../styles/global.css";
 
-function MovieForm({ onSuccess }) {
+function MovieForm({ onSuccess, id: propId }) {
   const { id } = useParams();
+  const actualId = propId || id;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -17,11 +18,10 @@ function MovieForm({ onSuccess }) {
     synopsis: ""
   });
 
-  const [loading, setLoading] = useState(id ? true : false); // 🔹
+  const [loading, setLoading] = useState(actualId ? true : false);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  // Récupérer les catégories
   useEffect(() => {
     fetch("http://localhost:3000/categories")
       .then(res => {
@@ -32,11 +32,10 @@ function MovieForm({ onSuccess }) {
       .catch(err => setError(err.message));
   }, []);
 
-  // Récupérer le film si modification
   useEffect(() => {
-    if (!id) return;
+    if (!actualId) return;
 
-    fetch(`http://localhost:3000/movies/${id}`)
+    fetch(`http://localhost:3000/movies/${actualId}`)
       .then(res => {
         if (!res.ok) throw new Error("Film introuvable");
         return res.json();
@@ -55,9 +54,9 @@ function MovieForm({ onSuccess }) {
       })
       .catch(err => {
         setError(err.message);
-        setLoading(false); // 🔹 important
+        setLoading(false);
       });
-  }, [id]);
+  }, [actualId]);
 
 
   const handleChange = e => {
@@ -85,8 +84,8 @@ function MovieForm({ onSuccess }) {
 
     setLoading(true);
     try {
-      const url = id ? `http://localhost:3000/movies/${id}` : "http://localhost:3000/movies";
-      const method = id ? "PUT" : "POST";
+      const url = actualId ? `http://localhost:3000/movies/${actualId}` : "http://localhost:3000/movies";
+      const method = actualId ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -107,12 +106,12 @@ function MovieForm({ onSuccess }) {
         throw new Error(data.error || "Impossible d’enregistrer le film");
       }
 
-      alert(id ? "Film modifié avec succès !" : "Film ajouté avec succès !");
+      alert(actualId ? "Film modifié avec succès !" : "Film ajouté avec succès !");
 
       if (onSuccess) {
-        onSuccess(); // ferme la popup
+        onSuccess();
       } else {
-        navigate(id ? `/movies/${id}` : "/"); // comportement normal
+        navigate(actualId ? `/movies/${actualId}` : "/");
       }
     } catch (err) {
       setError(err.message);
@@ -126,7 +125,7 @@ function MovieForm({ onSuccess }) {
   return (
     <div className="add-movie">
 
-      <h1>{id ? "Modifier le film" : "Ajouter un film"}</h1>
+      <h1>{actualId ? "Modifier le film" : "Ajouter un film"}</h1>
 
       {error && <p className="status error">{error}</p>}
 
@@ -217,7 +216,7 @@ function MovieForm({ onSuccess }) {
         </label>
 
         <button className="edit-button" type="submit" disabled={loading}>
-          {loading ? (id ? "Modification en cours..." : "Ajout en cours...") : (id ? "Modifier le film" : "Ajouter le film")}
+          {loading ? (actualId ? "Modification en cours..." : "Ajout en cours...") : (actualId ? "Modifier le film" : "Ajouter le film")}
         </button>
       </form>
     </div>

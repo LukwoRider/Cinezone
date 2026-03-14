@@ -12,16 +12,12 @@ function ReviewSection({ movieId, onReviewChange }) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Formulaire
     const [formRating, setFormRating] = useState(0);
     const [formComment, setFormComment] = useState("");
     const [hoverRating, setHoverRating] = useState(0);
     const [submitting, setSubmitting] = useState(false);
-
-    // Mode édition
     const [editingId, setEditingId] = useState(null);
 
-    // 🔥 Charger les avis
     const fetchReviews = () => {
         fetch(`${API}/${movieId}`)
             .then((res) => res.json())
@@ -34,12 +30,9 @@ function ReviewSection({ movieId, onReviewChange }) {
         fetchReviews();
     }, [movieId]);
 
-    // L'utilisateur a-t-il déjà posté un avis ?
     const existingReview = user
         ? reviews.find((r) => r.user_id === user.id)
         : null;
-
-    // 🔥 Soumettre (ajout ou modification)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -80,12 +73,9 @@ function ReviewSection({ movieId, onReviewChange }) {
                 return;
             }
 
-            // Reset le formulaire
             setFormRating(0);
             setFormComment("");
             setEditingId(null);
-
-            // Rafraîchir les avis et le film
             fetchReviews();
             if (onReviewChange) onReviewChange();
         } catch (err) {
@@ -96,25 +86,21 @@ function ReviewSection({ movieId, onReviewChange }) {
         }
     };
 
-    // 🔥 Passer en mode édition
     const startEdit = (review) => {
         setEditingId(review.id);
         setFormRating(review.rating);
         setFormComment(review.comment);
-        // Scroller vers le formulaire
         document
             .querySelector(".review-form")
             ?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
 
-    // 🔥 Annuler l'édition
     const cancelEdit = () => {
         setEditingId(null);
         setFormRating(0);
         setFormComment("");
     };
 
-    // 🔥 Supprimer un avis
     const handleDelete = async (reviewId) => {
         if (!window.confirm("Supprimer votre avis ?")) return;
 
@@ -137,7 +123,6 @@ function ReviewSection({ movieId, onReviewChange }) {
         }
     };
 
-    // 🌟 Rendu des étoiles pour le sélecteur
     const renderStarSelector = () => (
         <div className="star-selector">
             {[...Array(10)].map((_, i) => {
@@ -163,7 +148,6 @@ function ReviewSection({ movieId, onReviewChange }) {
         </div>
     );
 
-    // 🌟 Rendu des étoiles statiques pour un avis
     const renderStars = (rating) => (
         <div className="review-stars">
             {[...Array(10)].map((_, i) => (
@@ -178,7 +162,6 @@ function ReviewSection({ movieId, onReviewChange }) {
         </div>
     );
 
-    // Date lisible
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
         return date.toLocaleDateString("fr-FR", {
@@ -188,21 +171,18 @@ function ReviewSection({ movieId, onReviewChange }) {
         });
     };
 
-    // Initiales pour l'avatar
     const getInitials = (firstname, lastname) => {
         return `${(firstname || "")[0] || ""}${(lastname || "")[0] || ""}`.toUpperCase();
     };
 
     if (loading) return null;
 
-    // Afficher le formulaire seulement si connecté et (pas encore d'avis OU en mode édition)
     const showForm = user && (!existingReview || editingId !== null);
 
     return (
         <div className="reviews-section">
             <h2>Avis ({reviews.length})</h2>
 
-            {/* Message si non connecté */}
             {!user && (
                 <div className="login-prompt">
                     <p>Connectez-vous pour donner votre avis</p>
@@ -210,7 +190,6 @@ function ReviewSection({ movieId, onReviewChange }) {
                 </div>
             )}
 
-            {/* Formulaire */}
             {showForm && (
                 <form className="review-form" onSubmit={handleSubmit}>
                     <h3>{editingId ? "Modifier votre avis" : "Donner votre avis"}</h3>
@@ -249,7 +228,6 @@ function ReviewSection({ movieId, onReviewChange }) {
                 </form>
             )}
 
-            {/* Liste des avis */}
             <div className="reviews-list">
                 {reviews.length === 0 ? (
                     <p className="no-reviews">Aucun avis pour le moment. Soyez le premier !</p>
@@ -282,7 +260,6 @@ function ReviewSection({ movieId, onReviewChange }) {
 
                             <p className="review-comment">{review.comment}</p>
 
-                            {/* Actions si c'est l'avis de l'utilisateur connecté */}
                             {user && user.id === review.user_id && editingId !== review.id && (
                                 <div className="review-actions">
                                     <button

@@ -5,7 +5,6 @@ import "../styles/Profile.css";
 function Profile() {
   const token = localStorage.getItem("token");
 
-  // ⚡ State initialisé directement depuis localStorage
   const [user, setUser] = useState(() => {
     const stored = JSON.parse(localStorage.getItem("user"));
     return stored
@@ -22,14 +21,12 @@ function Profile() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  // 🔹 Inputs
   const handleChange = (e) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
   const handlePasswordChange = (e) =>
     setPasswords({ ...passwords, [e.target.name]: e.target.value });
 
-  // --- Upload avatar ---
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -64,12 +61,9 @@ function Profile() {
     }
   };
 
-  // Initiales pour l'avatar par défaut
   const getInitials = () => {
     return `${(user.firstname || "")[0] || ""}${(user.lastname || "")[0] || ""}`.toUpperCase();
   };
-
-  // --- Mettre à jour le profil ---
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     try {
@@ -96,7 +90,6 @@ function Profile() {
     }
   };
 
-  // --- Changer le mot de passe ---
   const handleChangePassword = async (e) => {
     e.preventDefault();
     if (passwords.newPassword !== passwords.confirmPassword) {
@@ -134,7 +127,6 @@ function Profile() {
     <div className="profile-container">
       <h2>Mon Profil</h2>
 
-      {/* Section Avatar */}
       <div className="profile-avatar-section">
         <div className="profile-avatar-wrapper" onClick={() => fileInputRef.current?.click()}>
           {user.avatar ? (

@@ -1,6 +1,5 @@
 import { db } from "../db/database.js";
 
-// --- Ajouter un favori ---
 export const addFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.body;
@@ -17,7 +16,6 @@ export const addFavorite = async (req, res) => {
 
     res.status(201).json({ message: "Film ajouté aux favoris" });
   } catch (err) {
-    // Erreur si déjà en favori (UNIQUE constraint)
     if (err.code === "ER_DUP_ENTRY") {
       return res.status(409).json({ error: "Déjà en favori" });
     }
@@ -27,7 +25,6 @@ export const addFavorite = async (req, res) => {
   }
 };
 
-// --- Supprimer un favori ---
 export const removeFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.params;
@@ -45,7 +42,6 @@ export const removeFavorite = async (req, res) => {
   }
 };
 
-// --- Récupérer les favoris de l'utilisateur ---
 export const getUserFavorites = async (req, res) => {
   const userId = req.user.id;
 
@@ -67,7 +63,6 @@ export const getUserFavorites = async (req, res) => {
   }
 };
 
-// --- Vérifier si un film est en favori ---
 export const isFavorite = async (req, res) => {
   const userId = req.user.id;
   const { movieId } = req.params;

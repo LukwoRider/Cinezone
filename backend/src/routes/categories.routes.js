@@ -4,9 +4,6 @@ import { notFound, badRequest, serverError } from '../utils/http.js';
 
 const router = Router();
 
-/**
- * GET /categories → liste des catégories
- */
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
@@ -16,9 +13,6 @@ router.get('/', async (_req, res) => {
   }
 });
 
-/**
- * GET /categories/:id → une catégorie
- */
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -30,10 +24,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-/**
- * POST /categories → créer une catégorie
- * body: { name }
- */
 router.post('/', async (req, res) => {
   try {
     const { name } = req.body ?? {};
@@ -47,7 +37,6 @@ router.post('/', async (req, res) => {
       .location(`/categories/${createdId}`)
       .json({ id: createdId, name: name.trim() });
   } catch (err) {
-    // gestion du doublon sur UNIQUE name
     if (err?.code === 'ER_DUP_ENTRY') {
       return badRequest(res, 'Category name already exists');
     }
@@ -55,10 +44,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-/**
- * PUT /categories/:id → update
- * body: { name }
- */
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -77,10 +62,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-/**
- * DELETE /categories/:id
- * ON DELETE SET NULL pour les films
- */
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
