@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { FiCamera } from "react-icons/fi";
 import "../styles/Profile.css";
 
 function Profile() {
@@ -8,8 +9,8 @@ function Profile() {
   const [user, setUser] = useState(() => {
     const stored = JSON.parse(localStorage.getItem("user"));
     return stored
-      ? { firstname: stored.firstname, lastname: stored.lastname, email: stored.email }
-      : { firstname: "", lastname: "", email: "" };
+      ? { firstname: stored.firstname, lastname: stored.lastname, email: stored.email, avatar: stored.avatar || null }
+      : { firstname: "", lastname: "", email: "", avatar: null };
   });
 
   const [passwords, setPasswords] = useState({
@@ -18,12 +19,55 @@ function Profile() {
     confirmPassword: "",
   });
 
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
   // 🔹 Inputs
   const handleChange = (e) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
   const handlePasswordChange = (e) =>
     setPasswords({ ...passwords, [e.target.name]: e.target.value });
+
+  // --- Upload avatar ---
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await fetch("http://localhost:3000/auth/profile/avatar", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        const updatedUser = { ...JSON.parse(localStorage.getItem("user")), avatar: data.avatar };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setUser((prev) => ({ ...prev, avatar: data.avatar }));
+        alert("Photo de profil mise à jour !");
+      } else {
+        alert(data.error || "Erreur lors de l'upload");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur serveur");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Initiales pour l'avatar par défaut
+  const getInitials = () => {
+    return `${(user.firstname || "")[0] || ""}${(user.lastname || "")[0] || ""}`.toUpperCase();
+  };
 
   // --- Mettre à jour le profil ---
   const handleSaveProfile = async (e) => {
@@ -35,13 +79,14 @@ function Profile() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify({ firstname: user.firstname, lastname: user.lastname, email: user.email }),
       });
 
       const data = await res.json();
       if (res.ok) {
         alert(data.message);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setUser((prev) => ({ ...prev, ...data.user }));
       } else {
         alert(data.error);
       }
@@ -88,6 +133,36 @@ function Profile() {
   return (
     <div className="profile-container">
       <h2>Mon Profil</h2>
+
+      {/* Section Avatar */}
+      <div className="profile-avatar-section">
+        <div className="profile-avatar-wrapper" onClick={() => fileInputRef.current?.click()}>
+          {user.avatar ? (
+            <img
+              src={`http://localhost:3000${user.avatar}`}
+              alt="Avatar"
+              className="profile-avatar-img"
+            />
+          ) : (
+            <div className="profile-avatar-placeholder">
+              {getInitials()}
+            </div>
+          )}
+          <div className="profile-avatar-overlay">
+            <FiCamera size={20} />
+          </div>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          style={{ display: "none" }}
+          onChange={handleAvatarChange}
+        />
+        <p className="profile-avatar-hint">
+          {uploading ? "Upload en cours..." : "Cliquez pour changer la photo"}
+        </p>
+      </div>
 
       <form className="profile-form" onSubmit={handleSaveProfile}>
         <label>Prénom</label>
