@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "../styles/Reviews.css";
+import { useToast } from "../contexts/ToastContext";
+import { useConfirm } from "../contexts/ConfirmContext";
 
 const API = "http://localhost:3000/reviews";
 
 function ReviewSection({ movieId, onReviewChange }) {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -37,12 +41,12 @@ function ReviewSection({ movieId, onReviewChange }) {
         e.preventDefault();
 
         if (formRating === 0) {
-            alert("Veuillez sélectionner une note");
+            showToast("Veuillez sélectionner une note", "error");
             return;
         }
 
         if (!formComment.trim()) {
-            alert("Veuillez écrire un commentaire");
+            showToast("Veuillez écrire un commentaire", "error");
             return;
         }
 
@@ -69,9 +73,11 @@ function ReviewSection({ movieId, onReviewChange }) {
 
             if (!res.ok) {
                 const data = await res.json();
-                alert(data.error || "Erreur lors de l'envoi");
+                showToast(data.error || "Erreur lors de l'envoi", "error");
                 return;
             }
+
+            showToast(isEdit ? "Avis modifié !" : "Avis ajouté !", "success");
 
             setFormRating(0);
             setFormComment("");
@@ -80,7 +86,7 @@ function ReviewSection({ movieId, onReviewChange }) {
             if (onReviewChange) onReviewChange();
         } catch (err) {
             console.error(err);
-            alert("Erreur réseau");
+            showToast("Erreur réseau", "error");
         } finally {
             setSubmitting(false);
         }
@@ -102,7 +108,8 @@ function ReviewSection({ movieId, onReviewChange }) {
     };
 
     const handleDelete = async (reviewId) => {
-        if (!window.confirm("Supprimer votre avis ?")) return;
+        const isConfirmed = await confirm("Supprimer votre avis ?");
+        if (!isConfirmed) return;
 
         try {
             const res = await fetch(`${API}/${reviewId}`, {
@@ -112,10 +119,11 @@ function ReviewSection({ movieId, onReviewChange }) {
 
             if (!res.ok) {
                 const data = await res.json();
-                alert(data.error || "Erreur lors de la suppression");
+                showToast(data.error || "Erreur lors de la suppression", "error");
                 return;
             }
 
+            showToast("Avis supprimé !", "success");
             fetchReviews();
             if (onReviewChange) onReviewChange();
         } catch (err) {

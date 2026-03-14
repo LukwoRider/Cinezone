@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import "../styles/MovieForm.css";
 import "../styles/global.css";
+import { useToast } from "../contexts/ToastContext";
 
 function MovieForm({ onSuccess, id: propId }) {
   const { id } = useParams();
   const actualId = propId || id;
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [form, setForm] = useState({
     title: "",
@@ -106,7 +108,7 @@ function MovieForm({ onSuccess, id: propId }) {
         throw new Error(data.error || "Impossible d’enregistrer le film");
       }
 
-      alert(actualId ? "Film modifié avec succès !" : "Film ajouté avec succès !");
+      showToast(actualId ? "Film modifié avec succès !" : "Film ajouté avec succès !", "success");
 
       if (onSuccess) {
         onSuccess();

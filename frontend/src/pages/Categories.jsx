@@ -3,6 +3,8 @@ import "../styles/Categories.css";
 import Modal from "../components/Modal";
 import { FaFolderOpen } from "react-icons/fa";
 import "../styles/global.css";
+import { useToast } from "../contexts/ToastContext";
+import { useConfirm } from "../contexts/ConfirmContext";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -12,6 +14,8 @@ function Categories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [nameInput, setNameInput] = useState("");
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
 
   const fetchCategories = () => {
     setLoading(true);
@@ -55,14 +59,15 @@ function Categories() {
 
       setIsModalOpen(false);
       fetchCategories();
+      showToast(editingCategory ? "Catégorie modifiée !" : "Catégorie ajoutée !", "success");
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, "error");
     }
   };
 
   const handleDelete = async (category) => {
-    const confirm = window.confirm(`Supprimer "${category.name}" ?`);
-    if (!confirm) return;
+    const isConfirmed = await confirm(`Supprimer "${category.name}" ?`);
+    if (!isConfirmed) return;
 
     try {
       const res = await fetch(`http://localhost:3000/categories/${category.id}`, {
@@ -73,8 +78,9 @@ function Categories() {
         throw new Error(data.error || "Erreur lors de la suppression");
       }
       fetchCategories();
+      showToast(`Catégorie "${category.name}" supprimée.`, "success");
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, "error");
     }
   };
 

@@ -4,11 +4,13 @@ import { MdMovie, MdCategory, MdPeople, MdAdminPanelSettings, MdAdd, MdHome } fr
 import "../../styles/AdminDashboard.css";
 import Modal from "../../components/Modal";
 import MovieForm from "../MovieForm";
+import { useToast } from "../../contexts/ToastContext";
 
 function AdminDashboard() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const { showToast } = useToast();
 
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -60,9 +62,9 @@ function AdminDashboard() {
             setCategoryName("");
             setIsCategoryModalOpen(false);
             fetchStats();
-            alert("Catégorie ajoutée avec succès !");
+            showToast("Catégorie ajoutée avec succès !", "success");
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, "error");
         }
     };
 
