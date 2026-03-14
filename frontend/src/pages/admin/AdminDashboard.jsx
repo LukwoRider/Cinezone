@@ -25,6 +25,7 @@ function AdminDashboard() {
         }
     }, [user, navigate]);
 
+    // Fetch overview statistics for the admin dashboard
     const fetchStats = () => {
         if (!token) return;
         fetch("http://localhost:3000/stats", {
@@ -40,6 +41,7 @@ function AdminDashboard() {
         fetchStats();
     }, [token]);
 
+    // Handles the creation of a new category via admin form
     const handleAddCategory = async (e) => {
         e.preventDefault();
         if (!categoryName.trim()) return;
