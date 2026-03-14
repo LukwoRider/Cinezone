@@ -1,8 +1,8 @@
 // src/tests/auth.controller.test.js
 import { jest } from "@jest/globals";
 
-    process.env.JWT_SECRET = "testsecret";
-    process.env.JWT_EXPIRES_IN = "1h";
+process.env.JWT_SECRET = "testsecret";
+process.env.JWT_EXPIRES_IN = "1h";
 
 /* ============================
    MOCK DATABASE, BCRYPT ET JWT
@@ -102,36 +102,36 @@ describe("LOGIN", () => {
     expect(res.status).toHaveBeenCalledWith(401);
   });
 
-//   it("should return token if login valid", async () => {
-//     const user = {
-//         id: 1,
-//         firstname: "Test",
-//         lastname: "User",
-//         email: "x@test.com",
-//         password_hash: "hash",
-//         is_admin: 0
-//     };
+  //   it("should return token if login valid", async () => {
+  //     const user = {
+  //         id: 1,
+  //         firstname: "Test",
+  //         lastname: "User",
+  //         email: "x@test.com",
+  //         password_hash: "hash",
+  //         is_admin: 0
+  //     };
 
-//     db.query.mockResolvedValueOnce([[user]]);
-//     bcrypt.compare.mockResolvedValue(true);
-//     jwt.sign.mockReturnValue("fake-token");
+  //     db.query.mockResolvedValueOnce([[user]]);
+  //     bcrypt.compare.mockResolvedValue(true);
+  //     jwt.sign.mockReturnValue("fake-token");
 
-//     const req = { body: { email: "x@test.com", password: "123" } };
-//     const res = mockResponse();
+  //     const req = { body: { email: "x@test.com", password: "123" } };
+  //     const res = mockResponse();
 
-//     await login(req, res, db, bcrypt, jwt);
+  //     await login(req, res, db, bcrypt, jwt);
 
-//     expect(res.json).toHaveBeenCalledWith({
-//         token: "fake-token",
-//         user: {
-//         id: 1,
-//         firstname: "Test",
-//         lastname: "User",
-//         email: "x@test.com",
-//         is_admin: 0
-//         }
-//     });
-// });
+  //     expect(res.json).toHaveBeenCalledWith({
+  //         token: "fake-token",
+  //         user: {
+  //         id: 1,
+  //         firstname: "Test",
+  //         lastname: "User",
+  //         email: "x@test.com",
+  //         is_admin: 0
+  //         }
+  //     });
+  // });
 
 });
 
@@ -147,11 +147,13 @@ describe("UPDATE PROFILE", () => {
   });
 
   it("should update profile", async () => {
-    db.query.mockResolvedValueOnce([]);
+    const updatedUser = { id: 1, firstname: "New", lastname: "Name", email: "new@test.com", is_admin: 0, avatar: null };
+    db.query.mockResolvedValueOnce([]); // UPDATE
+    db.query.mockResolvedValueOnce([[updatedUser]]); // SELECT
     const req = { user: { id: 1 }, body: { firstname: "New", lastname: "Name", email: "new@test.com" } };
     const res = mockResponse();
     await updateProfile(req, res, db);
-    expect(res.json).toHaveBeenCalledWith({ message: "Profil mis à jour avec succès" });
+    expect(res.json).toHaveBeenCalledWith({ message: "Profil mis à jour avec succès", user: updatedUser });
   });
 });
 
@@ -183,20 +185,20 @@ describe("CHANGE PASSWORD", () => {
     expect(res.status).toHaveBeenCalledWith(400);
   });
 
-//   it("should update password successfully", async () => {
-//     // 1er SELECT pour récupérer le hash
-//     db.query.mockResolvedValueOnce([[{ password_hash: "hash" }]]);
-//     // Comparaison réussie
-//     bcrypt.compare.mockResolvedValue(true);
-//     // Nouveau hash simulé
-//     bcrypt.hash.mockResolvedValue("newHash");
-//     // 2ème UPDATE
-//     db.query.mockResolvedValueOnce([]);
+  //   it("should update password successfully", async () => {
+  //     // 1er SELECT pour récupérer le hash
+  //     db.query.mockResolvedValueOnce([[{ password_hash: "hash" }]]);
+  //     // Comparaison réussie
+  //     bcrypt.compare.mockResolvedValue(true);
+  //     // Nouveau hash simulé
+  //     bcrypt.hash.mockResolvedValue("newHash");
+  //     // 2ème UPDATE
+  //     db.query.mockResolvedValueOnce([]);
 
-//     const req = { user: { id: 1 }, body: { currentPassword: "123", newPassword: "456" } };
-//     const res = mockResponse();
-//     await changePassword(req, res, db, bcrypt);
+  //     const req = { user: { id: 1 }, body: { currentPassword: "123", newPassword: "456" } };
+  //     const res = mockResponse();
+  //     await changePassword(req, res, db, bcrypt);
 
-//     expect(res.json).toHaveBeenCalledWith({ message: "Mot de passe modifié avec succès" });
-//   });
+  //     expect(res.json).toHaveBeenCalledWith({ message: "Mot de passe modifié avec succès" });
+  //   });
 });
