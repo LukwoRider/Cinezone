@@ -15,8 +15,6 @@ services:
       - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
-      # To initialize your schema automatically, put your .sql files in ./db/init.sql and uncomment the line below:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
