@@ -1,9 +1,5 @@
-// src/tests/reviews.controller.test.js
 import { jest } from "@jest/globals";
 
-/* ============================
-   MOCK DATABASE
-============================ */
 jest.unstable_mockModule("../db/database.js", () => ({
     db: { query: jest.fn() },
 }));
@@ -11,9 +7,6 @@ jest.unstable_mockModule("../db/database.js", () => ({
 const { db } = await import("../db/database.js");
 const { getMovieReviews, addReview, updateReview, deleteReview } = await import("../controllers/reviews.controller.js");
 
-/* ============================
-   HELPERS
-============================ */
 const mockResponse = () => {
     const res = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -25,9 +18,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-/* ============================
-   GET MOVIE REVIEWS
-============================ */
+// Test suite for movie review CRUD operations
 describe("GET MOVIE REVIEWS", () => {
     it("should return reviews for a movie", async () => {
         const mockReviews = [
@@ -53,9 +44,6 @@ describe("GET MOVIE REVIEWS", () => {
     });
 });
 
-/* ============================
-   ADD REVIEW
-============================ */
 describe("ADD REVIEW", () => {
     it("should return 400 if fields are missing", async () => {
         const req = { user: { id: 1 }, body: {} };
@@ -82,8 +70,8 @@ describe("ADD REVIEW", () => {
     });
 
     it("should create a review and return 201", async () => {
-        db.query.mockResolvedValueOnce([{ insertId: 10 }]); // INSERT review
-        db.query.mockResolvedValueOnce([]); // recalcMovieRating
+        db.query.mockResolvedValueOnce([{ insertId: 10 }]);
+        db.query.mockResolvedValueOnce([]);
 
         const req = { user: { id: 1 }, body: { movieId: 1, rating: 8, comment: "Excellent film" } };
         const res = mockResponse();
@@ -108,9 +96,6 @@ describe("ADD REVIEW", () => {
     });
 });
 
-/* ============================
-   UPDATE REVIEW
-============================ */
 describe("UPDATE REVIEW", () => {
     it("should return 400 if fields are missing", async () => {
         const req = { user: { id: 1 }, params: { id: "1" }, body: {} };
@@ -121,7 +106,7 @@ describe("UPDATE REVIEW", () => {
     });
 
     it("should return 404 if review not found or not owned", async () => {
-        db.query.mockResolvedValueOnce([[]]); // SELECT reviews
+        db.query.mockResolvedValueOnce([[]]);
 
         const req = { user: { id: 1 }, params: { id: "99" }, body: { rating: 7, comment: "Updated" } };
         const res = mockResponse();
@@ -131,9 +116,9 @@ describe("UPDATE REVIEW", () => {
     });
 
     it("should update review successfully", async () => {
-        db.query.mockResolvedValueOnce([[{ movie_id: 1 }]]); // SELECT review
-        db.query.mockResolvedValueOnce([]); // UPDATE review
-        db.query.mockResolvedValueOnce([]); // recalcMovieRating
+        db.query.mockResolvedValueOnce([[{ movie_id: 1 }]]);
+        db.query.mockResolvedValueOnce([]);
+        db.query.mockResolvedValueOnce([]);
 
         const req = { user: { id: 1 }, params: { id: "1" }, body: { rating: 9, comment: "Updated" } };
         const res = mockResponse();
@@ -145,12 +130,9 @@ describe("UPDATE REVIEW", () => {
     });
 });
 
-/* ============================
-   DELETE REVIEW
-============================ */
 describe("DELETE REVIEW", () => {
     it("should return 404 if review not found or not owned", async () => {
-        db.query.mockResolvedValueOnce([[]]); // SELECT reviews
+        db.query.mockResolvedValueOnce([[]]);
 
         const req = { user: { id: 1 }, params: { id: "99" } };
         const res = mockResponse();
@@ -160,9 +142,9 @@ describe("DELETE REVIEW", () => {
     });
 
     it("should delete review successfully", async () => {
-        db.query.mockResolvedValueOnce([[{ movie_id: 1 }]]); // SELECT review
-        db.query.mockResolvedValueOnce([]); // DELETE review
-        db.query.mockResolvedValueOnce([]); // recalcMovieRating
+        db.query.mockResolvedValueOnce([[{ movie_id: 1 }]]);
+        db.query.mockResolvedValueOnce([]);
+        db.query.mockResolvedValueOnce([]);
 
         const req = { user: { id: 1 }, params: { id: "1" } };
         const res = mockResponse();

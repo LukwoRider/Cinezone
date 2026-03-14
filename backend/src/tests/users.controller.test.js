@@ -1,9 +1,5 @@
-// src/tests/users.controller.test.js
 import { jest } from "@jest/globals";
 
-/* ============================
-   MOCK DATABASE
-============================ */
 jest.unstable_mockModule("../db/database.js", () => ({
     db: { query: jest.fn() },
 }));
@@ -11,9 +7,6 @@ jest.unstable_mockModule("../db/database.js", () => ({
 const { db } = await import("../db/database.js");
 const { getAllUsers, deleteUser } = await import("../controllers/users.controller.js");
 
-/* ============================
-   HELPERS
-============================ */
 const mockResponse = () => {
     const res = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -25,9 +18,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-/* ============================
-   GET ALL USERS
-============================ */
+// Test suite for user management endpoints (admin only)
 describe("GET ALL USERS", () => {
     it("should return list of users", async () => {
         const mockUsers = [
@@ -57,9 +48,6 @@ describe("GET ALL USERS", () => {
     });
 });
 
-/* ============================
-   DELETE USER
-============================ */
 describe("DELETE USER", () => {
     it("should return 403 if trying to delete own account", async () => {
         const req = { params: { id: "1" }, user: { id: 1 } };

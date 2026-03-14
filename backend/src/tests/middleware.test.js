@@ -1,4 +1,3 @@
-// src/tests/middleware.test.js
 import { jest } from "@jest/globals";
 import jwt from "jsonwebtoken";
 
@@ -6,9 +5,6 @@ process.env.JWT_SECRET = "testsecret";
 
 const { authenticate, requireAdmin } = await import("../middlewares/auth.middleware.js");
 
-/* ============================
-   HELPERS
-============================ */
 const mockResponse = () => {
     const res = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -16,9 +12,7 @@ const mockResponse = () => {
     return res;
 };
 
-/* ============================
-   AUTHENTICATE MIDDLEWARE
-============================ */
+// Test suite for JWT authentication and admin role verification middlewares
 describe("AUTHENTICATE MIDDLEWARE", () => {
     it("should return 401 if no Authorization header", () => {
         const req = { headers: {} };
@@ -59,9 +53,6 @@ describe("AUTHENTICATE MIDDLEWARE", () => {
     });
 });
 
-/* ============================
-   REQUIRE ADMIN MIDDLEWARE
-============================ */
 describe("REQUIRE ADMIN MIDDLEWARE", () => {
     it("should return 403 if user is not admin", () => {
         const req = { user: { id: 1, is_admin: 0 } };

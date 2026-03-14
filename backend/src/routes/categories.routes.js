@@ -4,6 +4,7 @@ import { notFound, badRequest, serverError } from '../utils/http.js';
 
 const router = Router();
 
+// Get all categories ordered alphabetically
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
@@ -13,6 +14,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
+// Get a single category by ID
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -24,6 +26,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Create a new category
 router.post('/', async (req, res) => {
   try {
     const { name } = req.body ?? {};
@@ -44,6 +47,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Update an existing category by ID
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -62,6 +66,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Delete a category by ID
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);

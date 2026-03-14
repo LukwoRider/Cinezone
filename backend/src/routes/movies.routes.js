@@ -4,6 +4,7 @@ import { badRequest, notFound, serverError } from '../utils/http.js';
 
 const router = Router();
 
+// Get all movies with their respective category names
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await db.query(`
@@ -18,6 +19,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
+// Get a single movie by ID
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -34,6 +36,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Helper function to validate movie payload data
 function validateMoviePayload(body) {
   const { title, director, release_year, rating, category_id, synopsis } = body ?? {};
   if (!title || !director) return 'title and director are required';
@@ -46,6 +49,7 @@ function validateMoviePayload(body) {
   return null;
 }
 
+// Create a new movie
 router.post('/', async (req, res) => {
   try {
     const errMsg = validateMoviePayload(req.body);
@@ -72,6 +76,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Update an existing movie by ID
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -97,6 +102,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Delete a movie by ID
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);

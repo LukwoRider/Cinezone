@@ -1,5 +1,6 @@
 import { db } from "../db/database.js";
 
+// Retrieves a list of all users from the database
 export const getAllUsers = async (req, res) => {
     try {
         const [users] = await db.query(
@@ -11,6 +12,7 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
+// Deletes a specific user by ID (prevents a user from deleting themselves)
 export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;

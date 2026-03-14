@@ -20,14 +20,19 @@ function App() {
       <Header />
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Movie Management Routes */}
         <Route path="/add" element={<MovieForm />} />
         <Route path="/movies/:id/edit" element={<MovieForm />} />
         <Route path="/movies/:id" element={<MovieDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/profile" element={<Profile />} />
+
+        {/* Admin Dashboard Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/movies" element={<AdminMovies />} />
         <Route path="/admin/categories" element={<AdminCategories />} />

@@ -5,7 +5,6 @@ import { authenticate, requireAdmin } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.use(authenticate, requireAdmin);
-
 router.get("/", getAllUsers);
 router.delete("/:id", deleteUser);
 

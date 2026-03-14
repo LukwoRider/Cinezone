@@ -10,10 +10,12 @@ import usersRouter from "./src/routes/users.routes.js";
 
 const app = express();
 
+// Middleware setup
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
+// API Routes registration
 app.use("/auth", authRouter);
 app.use("/favorites", favoritesRouter);
 app.use("/movies", moviesRouter);
@@ -22,10 +24,12 @@ app.use("/reviews", reviewsRouter);
 app.use("/stats", statsRouter);
 app.use("/users", usersRouter);
 
+// Health check route
 app.get("/test", (_req, res) => {
   res.json({ service: "CineZone API", status: "ok" });
 });
 
+// Global 404 handler for undefined routes
 app.use((_req, res) => {
   res.status(404).json({ error: "Route not found" });
 });

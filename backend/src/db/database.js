@@ -11,6 +11,7 @@ const {
   DB_NAME
 } = process.env;
 
+// Database connection pool configuration
 export const db = mysql.createPool({
   host: DB_HOST,
   port: Number(DB_PORT || 3306),
@@ -22,6 +23,7 @@ export const db = mysql.createPool({
   queueLimit: 0
 });
 
+// Function to test the database connection on server startup
 export async function testDbConnection() {
   const conn = await db.getConnection();
   try {

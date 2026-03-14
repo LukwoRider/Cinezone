@@ -4,6 +4,7 @@ import { MdLocalMovies } from "react-icons/md";
 import { useState } from "react";
 import "../styles/Header.css";
 
+// Application Header component containing navigation and user profile status
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ function Header() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // Log out the current user by clearing local storage and redirecting to login page
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -18,6 +20,7 @@ function Header() {
     navigate("/login");
   };
 
+  // Helper to close mobile menu after navigation
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -27,11 +30,13 @@ function Header() {
         CineZone
       </Link>
 
+      {/* Mobile menu toggle button */}
       <button className="burger" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
 
       <nav className={`nav ${menuOpen ? "open" : ""}`}>
+        {/* Admin only: Link to switch back to normal user mode (homepage) */}
         {user?.is_admin === 1 && (
           <Link
             to="/"
@@ -42,6 +47,7 @@ function Header() {
           </Link>
         )}
 
+        {/* Display profile link and avatar if user is logged in */}
         {user && (
           <Link
             to="/profile"
@@ -63,6 +69,7 @@ function Header() {
           </Link>
         )}
 
+        {/* Display logout button if logged in, otherwise login link */}
         {user ? (
           <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut size={18} />
