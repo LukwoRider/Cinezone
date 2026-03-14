@@ -30,7 +30,7 @@ function Login() {
     if (res.token) {
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(res.user));
-      navigate("/");
+      navigate(res.user.is_admin === 1 ? "/admin" : "/");
     } else {
       setError(res.error || "Identifiants invalides");
     }

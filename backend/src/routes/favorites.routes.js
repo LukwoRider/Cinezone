@@ -9,7 +9,6 @@ import { authenticate } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-// Toutes les routes nécessitent connexion
 router.post("/", authenticate, addFavorite);
 router.delete("/:movieId", authenticate, removeFavorite);
 router.get("/", authenticate, getUserFavorites);

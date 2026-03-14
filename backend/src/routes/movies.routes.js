@@ -4,10 +4,6 @@ import { badRequest, notFound, serverError } from '../utils/http.js';
 
 const router = Router();
 
-/**
- * GET /movies → tous les films
- * (Core simple, bonus filtres plus tard)
- */
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await db.query(`
@@ -22,9 +18,6 @@ router.get('/', async (_req, res) => {
   }
 });
 
-/**
- * GET /movies/:id → film précis
- */
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -41,9 +34,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-/**
- * Validation minimale pour création/màj
- */
 function validateMoviePayload(body) {
   const { title, director, release_year, rating, category_id, synopsis } = body ?? {};
   if (!title || !director) return 'title and director are required';
@@ -56,9 +46,6 @@ function validateMoviePayload(body) {
   return null;
 }
 
-/**
- * POST /movies → ajouter un film
- */
 router.post('/', async (req, res) => {
   try {
     const errMsg = validateMoviePayload(req.body);
@@ -78,7 +65,6 @@ router.post('/', async (req, res) => {
       .location(`/movies/${createdId}`)
       .json({ id: createdId, title, director, release_year: Number(release_year), rating: Number(rating), category_id: category_id ?? null, synopsis });
   } catch (err) {
-    // Erreur FK si category_id n’existe pas
     if (err?.code === 'ER_NO_REFERENCED_ROW_2') {
       return badRequest(res, 'category_id does not exist');
     }
@@ -86,9 +72,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-/**
- * PUT /movies/:id → modifier un film
- */
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -114,9 +97,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-/**
- * DELETE /movies/:id → supprimer un film
- */
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);

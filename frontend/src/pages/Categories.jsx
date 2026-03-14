@@ -13,7 +13,6 @@ function Categories() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [nameInput, setNameInput] = useState("");
 
-  // fetch categories
   const fetchCategories = () => {
     setLoading(true);
     fetch("http://localhost:3000/categories")
@@ -27,14 +26,12 @@ function Categories() {
     fetchCategories();
   }, []);
 
-  // ouvrir modal pour ajout ou modification
   const openModal = (category = null) => {
     setEditingCategory(category);
     setNameInput(category ? category.name : "");
     setIsModalOpen(true);
   };
 
-  // ajouter / modifier catégorie
   const handleSubmit = async e => {
     e.preventDefault();
     if (!nameInput.trim()) return;
@@ -57,13 +54,12 @@ function Categories() {
       }
 
       setIsModalOpen(false);
-      fetchCategories(); // refresh list
+      fetchCategories();
     } catch (err) {
       alert(err.message);
     }
   };
 
-  // supprimer catégorie
   const handleDelete = async (category) => {
     const confirm = window.confirm(`Supprimer "${category.name}" ?`);
     if (!confirm) return;

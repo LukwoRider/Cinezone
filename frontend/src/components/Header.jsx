@@ -22,7 +22,7 @@ function Header() {
 
   return (
     <header className="header">
-      <Link to="/" className="logo" onClick={closeMenu}>
+      <Link to={user?.is_admin === 1 ? "/admin" : "/"} className="logo" onClick={closeMenu}>
         <MdLocalMovies style={{ verticalAlign: "middle", marginRight: "6px" }} />
         CineZone
       </Link>
@@ -34,11 +34,11 @@ function Header() {
       <nav className={`nav ${menuOpen ? "open" : ""}`}>
         {user?.is_admin === 1 && (
           <Link
-            to="/categories"
-            className={location.pathname === "/categories" ? "active" : ""}
+            to="/"
+            className={location.pathname === "/" ? "active" : ""}
             onClick={closeMenu}
           >
-            Catégories
+            Mode utilisateur
           </Link>
         )}
 
