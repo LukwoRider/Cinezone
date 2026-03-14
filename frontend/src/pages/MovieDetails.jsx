@@ -7,6 +7,8 @@ import ReviewSection from "../components/ReviewSection";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 import "../styles/global.css";
+import { useToast } from "../contexts/ToastContext";
+import { useConfirm } from "../contexts/ConfirmContext";
 
 function MovieDetails() {
   const { id } = useParams();
@@ -14,6 +16,8 @@ function MovieDetails() {
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
 
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +54,7 @@ function MovieDetails() {
 
   const toggleFavorite = async () => {
     if (!token || !movie) {
-      alert("Vous devez être connecté");
+      showToast("Vous devez être connecté", "info");
       return;
     }
 
@@ -88,20 +92,21 @@ function MovieDetails() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Voulez-vous vraiment supprimer ce film ?")) return;
+    const isConfirmed = await confirm("Voulez-vous vraiment supprimer ce film ?");
+    if (!isConfirmed) return;
 
     setDeleting(true);
     try {
       const res = await fetch(`http://localhost:3000/movies/${id}`, { method: 'DELETE' });
       if (res.status === 204) {
-        alert("Film supprimé !");
+        showToast("Film supprimé !", "success");
         navigate("/");
       } else {
         const data = await res.json();
         throw new Error(data.error || "Impossible de supprimer le film");
       }
     } catch (err) {
-      alert("Erreur : " + err.message);
+      showToast("Erreur : " + err.message, "error");
     } finally {
       setDeleting(false);
     }

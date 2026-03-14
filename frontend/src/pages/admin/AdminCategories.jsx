@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdAdd, MdEdit, MdDelete, MdCategory } from "react-icons/md";
 import "../../styles/AdminCategories.css";
 import Modal from "../../components/Modal";
+import { useToast } from "../../contexts/ToastContext";
+import { useConfirm } from "../../contexts/ConfirmContext";
 
 function AdminCategories() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -37,7 +41,8 @@ function AdminCategories() {
     }, []);
 
     const handleDeleteCategory = async (categoryId, name) => {
-        if (!window.confirm(`Voulez-vous vraiment supprimer la catégorie "${name}" ?`)) return;
+        const isConfirmed = await confirm(`Voulez-vous vraiment supprimer la catégorie "${name}" ?`);
+        if (!isConfirmed) return;
 
         try {
             const res = await fetch(`http://localhost:3000/categories/${categoryId}`, {
@@ -48,9 +53,9 @@ function AdminCategories() {
             if (!res.ok) throw new Error("Erreur lors de la suppression de la catégorie");
 
             fetchCategories();
-            alert(`Catégorie "${name}" supprimée avec succès.`);
+            showToast(`Catégorie "${name}" supprimée avec succès.`, "success");
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, "error");
         }
     };
 
@@ -86,9 +91,9 @@ function AdminCategories() {
 
             setIsModalOpen(false);
             fetchCategories();
-            alert(editingCategory ? "Catégorie modifiée !" : "Catégorie ajoutée !");
+            showToast(editingCategory ? "Catégorie modifiée !" : "Catégorie ajoutée !", "success");
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, "error");
         }
     };
 

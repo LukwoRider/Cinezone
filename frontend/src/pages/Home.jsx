@@ -7,6 +7,7 @@ import { FiHeart } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 import { useRef } from "react";
 import "../styles/global.css";
+import { useToast } from "../contexts/ToastContext";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -29,6 +30,7 @@ function Home() {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
+  const { showToast } = useToast();
 
   const [visibleCount, setVisibleCount] = useState(15);
   const [hasMore, setHasMore] = useState(true);
@@ -53,7 +55,7 @@ function Home() {
     e.stopPropagation();
 
     if (!token) {
-      alert("Vous devez être connecté");
+      showToast("Vous devez être connecté", "info");
       return;
     }
 

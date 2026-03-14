@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { FiCamera } from "react-icons/fi";
 import "../styles/Profile.css";
+import { useToast } from "../contexts/ToastContext";
 
 function Profile() {
   const token = localStorage.getItem("token");
+  const { showToast } = useToast();
 
   const [user, setUser] = useState(() => {
     const stored = JSON.parse(localStorage.getItem("user"));
@@ -49,13 +51,13 @@ function Profile() {
         const updatedUser = { ...JSON.parse(localStorage.getItem("user")), avatar: data.avatar };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser((prev) => ({ ...prev, avatar: data.avatar }));
-        alert("Photo de profil mise à jour !");
+        showToast("Photo de profil mise à jour !", "success");
       } else {
-        alert(data.error || "Erreur lors de l'upload");
+        showToast(data.error || "Erreur lors de l'upload", "error");
       }
     } catch (err) {
       console.error(err);
-      alert("Erreur serveur");
+      showToast("Erreur serveur", "error");
     } finally {
       setUploading(false);
     }
@@ -78,22 +80,22 @@ function Profile() {
 
       const data = await res.json();
       if (res.ok) {
-        alert(data.message);
+        showToast(data.message, "success");
         localStorage.setItem("user", JSON.stringify(data.user));
         setUser((prev) => ({ ...prev, ...data.user }));
       } else {
-        alert(data.error);
+        showToast(data.error, "error");
       }
     } catch (err) {
       console.error(err);
-      alert("Erreur serveur");
+      showToast("Erreur serveur", "error");
     }
   };
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
     if (passwords.newPassword !== passwords.confirmPassword) {
-      alert("Les nouveaux mots de passe ne correspondent pas !");
+      showToast("Les nouveaux mots de passe ne correspondent pas !", "error");
       return;
     }
 
@@ -112,14 +114,14 @@ function Profile() {
 
       const data = await res.json();
       if (res.ok) {
-        alert(data.message);
+        showToast(data.message, "success");
         setPasswords({ currentPassword: "", newPassword: "", confirmPassword: "" });
       } else {
-        alert(data.error);
+        showToast(data.error, "error");
       }
     } catch (err) {
       console.error(err);
-      alert("Erreur serveur");
+      showToast("Erreur serveur", "error");
     }
   };
 

@@ -4,11 +4,15 @@ import { MdArrowBack, MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import "../../styles/AdminMovies.css";
 import Modal from "../../components/Modal";
 import MovieForm from "../MovieForm";
+import { useToast } from "../../contexts/ToastContext";
+import { useConfirm } from "../../contexts/ConfirmContext";
 
 function AdminMovies() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -37,7 +41,8 @@ function AdminMovies() {
     }, []);
 
     const handleDeleteMovie = async (movieId, title) => {
-        if (!window.confirm(`Voulez-vous vraiment supprimer le film "${title}" ?`)) return;
+        const isConfirmed = await confirm(`Voulez-vous vraiment supprimer le film "${title}" ?`);
+        if (!isConfirmed) return;
 
         try {
             const res = await fetch(`http://localhost:3000/movies/${movieId}`, {
@@ -48,9 +53,9 @@ function AdminMovies() {
             if (!res.ok) throw new Error("Erreur lors de la suppression du film");
 
             fetchMovies();
-            alert(`Film "${title}" supprimé avec succès.`);
+            showToast(`Film "${title}" supprimé avec succès.`, "success");
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, "error");
         }
     };
 

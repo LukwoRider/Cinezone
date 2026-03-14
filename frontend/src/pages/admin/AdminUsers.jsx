@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdDelete, MdPerson } from "react-icons/md";
 import "../../styles/AdminUsers.css";
+import { useToast } from "../../contexts/ToastContext";
+import { useConfirm } from "../../contexts/ConfirmContext";
 
 function AdminUsers() {
     const navigate = useNavigate();
     const currentUser = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
+    const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,11 +49,12 @@ function AdminUsers() {
 
     const handleDeleteUser = async (userId, name) => {
         if (userId === currentUser.id) {
-            alert("Vous ne pouvez pas supprimer votre propre compte.");
+            showToast("Vous ne pouvez pas supprimer votre propre compte.", "error");
             return;
         }
 
-        if (!window.confirm(`Voulez-vous vraiment supprimer l'utilisateur "${name}" ?`)) return;
+        const isConfirmed = await confirm(`Voulez-vous vraiment supprimer l'utilisateur "${name}" ?`);
+        if (!isConfirmed) return;
 
         try {
             const res = await fetch(`http://localhost:3000/users/${userId}`, {
@@ -60,9 +65,9 @@ function AdminUsers() {
             if (!res.ok) throw new Error("Erreur lors de la suppression de l'utilisateur");
 
             fetchUsers();
-            alert(`Utilisateur "${name}" supprimé avec succès.`);
+            showToast(`Utilisateur "${name}" supprimé avec succès.`, "success");
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, "error");
         }
     };
 
