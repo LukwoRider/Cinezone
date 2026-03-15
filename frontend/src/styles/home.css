@@ -9,7 +9,7 @@
 }
 
 .add-movie-button button {
-  background-color:  var(--primary);
+  background-color: var(--primary);
   color: var(--white);
   border: none;
   padding: 10px 16px;
@@ -19,7 +19,7 @@
 }
 
 .add-movie-button button:hover {
-  background-color:  var(--primary-hover);
+  background-color: var(--primary-hover);
   transform: translateY(-1px);
 }
 
@@ -40,7 +40,7 @@
 }
 
 .movie-card:hover {
-  color:  var(--accent);
+  color: var(--accent);
   transform: scale(1.08);
   z-index: 2;
 }
@@ -67,11 +67,9 @@
 .movie-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 0, 0, 0.2)
-  );
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2));
   opacity: 0;
   padding: 20px;
   display: flex;
@@ -111,8 +109,8 @@
   border-radius: 8px;
   border: none;
   outline: none;
-  background-color:  var(--bg-card);
-  color:  var(--white);
+  background-color: var(--bg-card);
+  color: var(--white);
   font-size: 0.95rem;
   transition: box-shadow 0.2s ease;
 }
@@ -122,15 +120,15 @@
 }
 
 .filters input:focus {
-  box-shadow: 0 0 0 2px  var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
 }
 
 .filters select {
   padding: 11px 14px;
   border-radius: 8px;
   border: none;
-  background-color:  var(--bg-card);
-  color:  var(--white);
+  background-color: var(--bg-card);
+  color: var(--white);
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
@@ -138,7 +136,7 @@
 
 .filters select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px  var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
 }
 
 .favorites-toggle input {
@@ -204,4 +202,17 @@
   .movies-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.no-movies {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  text-align: center;
+  color: var(--text-info);
+  font-size: 1.2rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  margin: 20px 0;
 }

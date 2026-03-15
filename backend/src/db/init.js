@@ -2,13 +2,13 @@ import { db } from './database.js';
 import bcrypt from 'bcrypt';
 
 export async function initializeDatabase() {
-    try {
-        console.log('Synchronisation de la base de données...');
+  try {
+    console.log('Synchronisation de la base de données...');
 
-        // Assure que la base de données supporte l'UTF-8
-        await db.query(`ALTER DATABASE cinezone CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+    // Assure que la base de données supporte l'UTF-8
+    await db.query(`ALTER DATABASE cinezone CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
 
-        await db.query(`
+    await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         firstname VARCHAR(50) NOT NULL,
@@ -21,14 +21,14 @@ export async function initializeDatabase() {
       );
     `);
 
-        await db.query(`
+    await db.query(`
       CREATE TABLE IF NOT EXISTS categories (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL UNIQUE
       );
     `);
 
-        await db.query(`
+    await db.query(`
       CREATE TABLE IF NOT EXISTS movies (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -43,7 +43,7 @@ export async function initializeDatabase() {
       );
     `);
 
-        await db.query(`
+    await db.query(`
       CREATE TABLE IF NOT EXISTS favorites (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -55,7 +55,7 @@ export async function initializeDatabase() {
       );
     `);
 
-        await db.query(`
+    await db.query(`
       CREATE TABLE IF NOT EXISTS reviews (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -69,22 +69,17 @@ export async function initializeDatabase() {
       );
     `);
 
-        // Graine : Utilisateur Admin
-        const adminPasswordHash = await bcrypt.hash('admin123', 10);
-        await db.query(`
-      INSERT IGNORE INTO users (firstname, lastname, email, password_hash, is_admin)
-      VALUES ('Super', 'Admin', 'admin@cinezone.com', ?, TRUE)
-    `, [adminPasswordHash]);
+    // Seed: Admin User (email: admin@cinezone.com, password: admin123)
+    const adminPasswordHash = await bcrypt.hash('admin123', 10);
+    await db.query(`
+          INSERT INTO users (firstname, lastname, email, password_hash, is_admin)
+          VALUES ('Super', 'Admin', 'admin@cinezone.com', ?, TRUE)
+          ON DUPLICATE KEY UPDATE password_hash = ?
+        `, [adminPasswordHash, adminPasswordHash]);
 
-        // Graine : Catégories
-        const categories = ['Action', 'Comédie', 'Drame', 'Science-Fiction', 'Horreur'];
-        for (const cat of categories) {
-            await db.query(`INSERT IGNORE INTO categories (name) VALUES (?)`, [cat]);
-        }
-
-        console.log('✅ Structure de la base de données synchronisée');
-    } catch (err) {
-        console.error('❌ Erreur lors de l\'initialisation de la base de données:', err);
-        throw err;
-    }
+    console.log('✅ Structure de la base de données synchronisée');
+  } catch (err) {
+    console.error('❌ Erreur lors de l\'initialisation de la base de données:', err);
+    throw err;
+  }
 }
