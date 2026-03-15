@@ -1,10 +1,10 @@
 # Cinezone 🎬
 
-Cinezone est une plateforme moderne de films. Elle permet aux utilisateurs de parcourir une vaste bibliothèque de films, de les filtrer via différent criteres, et de gérer leurs favoris. Un espace administrateur permet également la gestion complète du catalogue.
+Cinezone est une plateforme moderne de films. Elle permet aux utilisateurs de parcourir une vaste bibliothèque de films, de les filtrer via différents critères, et de gérer leurs favoris. Un espace administrateur permet également la gestion complète du catalogue.
 
 ## 1 Fonctionnalités
 - **Parcours public** : liste et détail des films, filtre multi-critères, recherche, infinite scroll.
-- **Comptes et authentification** : inscription, login, persistance JWT, hashage des mots de passes, photo de profil et raffraichissement, déconnexion.
+- **Comptes et authentification** : inscription, login, persistance JWT, hachage des mots de passe, photo de profil et rafraîchissement, déconnexion.
 - **Espace membre** : Favoris, notes.
 - **Admin** : CRUD films, Catégories, dashboard, gestion des utilisateurs.
 - **Qualité** : tests unitaires, tests E2E, CI/CD.
@@ -64,17 +64,17 @@ Le projet utilise des variables d'environnement pour configurer la base de donn�
    touch .env
    ```
 3. Ajouter les variables d'environnement suivantes :
-   ```bash
-  PORT=3000
+   ```env
+PORT=3000
 
-  DB_HOST=db
-  DB_PORT=3306
-  DB_USER=cinezone_user
-  DB_PASSWORD=cinezone_password
-  DB_NAME=cinezone
+DB_HOST=db
+DB_PORT=3306
+DB_USER=cinezone_user
+DB_PASSWORD=cinezone_password
+DB_NAME=cinezone
 
-  JWT_SECRET=your_super_secret_key_here
-  JWT_EXPIRES_IN=24h
+JWT_SECRET=your_super_secret_key_here
+JWT_EXPIRES_IN=24h
    ```
 
 ---
@@ -117,8 +117,8 @@ npm run cypress:run
 ## 6 Remarques et Suggestions
 
 ### Remarques : 
-1. **Gestion des images des films** : J'ai fais le choix d'utiliser des liens url pour l'upload des images des films dans le but de ne pas alourdir le projet.
+1. **Gestion des images des films** : J'ai fait le choix d'utiliser des liens URL pour l'upload des images des films dans le but de ne pas alourdir le projet.
 
 ### Ce qui serait prévu pour la V2 :
-1. **Récupération de mot de passe** : Une fonctionnalité d'oubli de mot de passe en cas d'oublie.
+1. **Récupération de mot de passe** : Une fonctionnalité de réinitialisation en cas d'oubli.
 2. **Observabilité** : toasts, logs.
