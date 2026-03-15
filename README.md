@@ -86,8 +86,6 @@ Une fois lancé :
 - **Backend (API Test)** : [http://localhost:3300/test](http://localhost:3300/test)
 - **phpMyAdmin** : [http://localhost:8081](http://localhost:8081)
 
-### 🗝️ Accès de Test (Admin)
-
 Vous pouvez vous créer un compte utilisateur en vous inscrivant sur le site ou utiliser le compte administrateur pré-configuré :
 
 - **Email** : `admin@cinezone.com`
