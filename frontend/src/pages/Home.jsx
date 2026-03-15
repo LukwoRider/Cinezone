@@ -233,33 +233,39 @@ function Home() {
         )}
       </div>
 
-      <div className="movies-grid">
-        {visibleMovies.map(movie => (
-          <Link key={movie.id} to={`/movies/${movie.id}${location.search}`} className="movie-card">
-            <div className="movie-card">
-              {user && (
-                <span
-                  className={`favorite-heart ${favorites.includes(Number(movie.id)) ? "active" : ""}`}
-                  onClick={e => toggleFavorite(movie.id, e)}
-                >
-                  {favorites.includes(Number(movie.id)) ? <FaHeart /> : <FiHeart />}
+      {filteredMovies.length === 0 ? (
+        <div className="no-movies">
+          <p>Aucun film disponible.</p>
+        </div>
+      ) : (
+        <div className="movies-grid">
+          {visibleMovies.map(movie => (
+            <Link key={movie.id} to={`/movies/${movie.id}${location.search}`} className="movie-card">
+              <div className="movie-card">
+                {user && (
+                  <span
+                    className={`favorite-heart ${favorites.includes(Number(movie.id)) ? "active" : ""}`}
+                    onClick={e => toggleFavorite(movie.id, e)}
+                  >
+                    {favorites.includes(Number(movie.id)) ? <FaHeart /> : <FiHeart />}
+                  </span>
+                )}
+                <img className="movie-image" src={movie.image || '/posters/default.jpg'} alt={movie.title} />
+                <span className="movie-rating">
+                  <FaStar className="star-icon" />{movie.rating}
                 </span>
-              )}
-              <img className="movie-image" src={movie.image || '/posters/default.jpg'} alt={movie.title} />
-              <span className="movie-rating">
-                <FaStar className="star-icon" />{movie.rating}
-              </span>
-              <div className="movie-overlay">
-                <h3>{movie.title}</h3>
-                <p><strong>Réalisateur :</strong> {movie.director}</p>
-                <p><strong>Année :</strong> {movie.release_year}</p>
-                <p><strong>Catégorie :</strong> {movie.category}</p>
-                <p><strong>Note :</strong> <FaStar className="star-icon" />{movie.rating}/10</p>
+                <div className="movie-overlay">
+                  <h3>{movie.title}</h3>
+                  <p><strong>Réalisateur :</strong> {movie.director}</p>
+                  <p><strong>Année :</strong> {movie.release_year}</p>
+                  <p><strong>Catégorie :</strong> {movie.category}</p>
+                  <p><strong>Note :</strong> <FaStar className="star-icon" />{movie.rating}/10</p>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
       {hasMore && <div ref={observerRef} style={{ height: "40px" }} />}
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
