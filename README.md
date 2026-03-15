@@ -63,8 +63,9 @@ Le projet utilise des variables d'environnement pour configurer la base de donn�
    ```bash
    touch .env
    ```
-3. Ajouter les variables d'environnement suivantes :
-   ```env
+3. Ajouter les variables d'environnement suivantes dans le fichier `.env` :
+
+```bash
 PORT=3000
 
 DB_HOST=db
@@ -75,7 +76,7 @@ DB_NAME=cinezone
 
 JWT_SECRET=your_super_secret_key_here
 JWT_EXPIRES_IN=24h
-   ```
+```
 
 ---
 
@@ -85,16 +86,18 @@ Une fois lancé :
 - **Backend (API Test)** : [http://localhost:3300/test](http://localhost:3300/test)
 - **phpMyAdmin** : [http://localhost:8081](http://localhost:8081)
 
-Vous pouvez vous créer un compte utilisateur en vous inscrivant sur le site ou utiliser le compte admin.
+### 🗝️ Accès de Test (Admin)
 
-Admin : 
-- Email : admin@cinezone.com
-- Mot de passe : admin123
+Vous pouvez vous créer un compte utilisateur en vous inscrivant sur le site ou utiliser le compte administrateur pré-configuré :
+
+- **Email** : `admin@cinezone.com`
+- **Mot de passe** : `admin123`
 
 ## 5 Lancer les Tests
 
 ### Tests Backend (Unitaires)
 Les tests du backend utilisent Jest. Pour les lancer :
+
 ```bash
 cd backend
 npm install
