@@ -61,7 +61,7 @@ Le projet utilise des variables d'environnement pour configurer la base de donn√
    ```
 2. Cr√©er un fichier .env :
    ```bash
-  touch .env
+   touch .env
    ```
 3. Ajouter les variables d'environnement suivantes :
    ```bash
