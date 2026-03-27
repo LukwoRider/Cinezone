@@ -1,11 +1,16 @@
 import { db } from "../db/database.js";
 
 // Recalculates and updates the average rating of a movie when reviews are added/modified
+// Includes the initial_rating (given at movie creation) as part of the average
 async function recalcMovieRating(movieId) {
   await db.query(
-    `UPDATE movies
-     SET rating = (SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE movie_id = ?)
-     WHERE id = ?`,
+    `UPDATE movies m
+     SET m.rating = (
+       SELECT (COALESCE(SUM(r.rating), 0) + m.initial_rating) / (COUNT(r.id) + 1)
+       FROM reviews r
+       WHERE r.movie_id = ?
+     )
+     WHERE m.id = ?`,
     [movieId, movieId]
   );
 }

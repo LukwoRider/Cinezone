@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', async (_req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT m.id, m.title, m.director, m.release_year, m.rating, m.category_id, m.image, m.synopsis, c.name AS category
+      SELECT m.id, m.title, m.director, m.release_year, m.rating, m.initial_rating, m.category_id, m.image, m.synopsis, c.name AS category
       FROM movies m
       LEFT JOIN categories c ON c.id = m.category_id
       ORDER BY m.id DESC
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
     const [rows] = await db.query(`
-      SELECT m.id, m.title, m.director, m.release_year, m.rating, m.category_id, m.image, m.synopsis, c.name AS category
+      SELECT m.id, m.title, m.director, m.release_year, m.rating, m.initial_rating, m.category_id, m.image, m.synopsis, c.name AS category
       FROM movies m
       LEFT JOIN categories c ON c.id = m.category_id
       WHERE m.id = ?
@@ -58,9 +58,9 @@ router.post('/', async (req, res) => {
     const { title, director, release_year, rating, category_id, synopsis } = req.body;
 
     const [result] = await db.query(`
-      INSERT INTO movies (title, director, release_year, rating, category_id, image, synopsis)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `, [title, director, Number(release_year), Number(rating), category_id ?? null, req.body.image ?? null, synopsis]);
+      INSERT INTO movies (title, director, release_year, rating, initial_rating, category_id, image, synopsis)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `, [title, director, Number(release_year), Number(rating), Number(rating), category_id ?? null, req.body.image ?? null, synopsis]);
 
     const createdId = result.insertId;
 
@@ -87,9 +87,9 @@ router.put('/:id', async (req, res) => {
 
     const [result] = await db.query(`
       UPDATE movies
-      SET title = ?, director = ?, release_year = ?, rating = ?, category_id = ?, image = ?, synopsis = ?
+      SET title = ?, director = ?, release_year = ?, rating = ?, initial_rating = ?, category_id = ?, image = ?, synopsis = ?
       WHERE id = ?
-    `, [title, director, Number(release_year), Number(rating), category_id ?? null, req.body.image ?? null, synopsis, id]);
+    `, [title, director, Number(release_year), Number(rating), Number(rating), category_id ?? null, req.body.image ?? null, synopsis, id]);
 
     if (result.affectedRows === 0) return notFound(res, 'Movie not found');
 
