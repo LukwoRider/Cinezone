@@ -171,11 +171,6 @@
     flex-direction: column;
     align-items: stretch;
   }
-
-  .filters input,
-  .filters select {
-    width: 100%;
-  }
 }
 
 /* Grille films */
