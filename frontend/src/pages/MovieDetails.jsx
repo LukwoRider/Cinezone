@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import "../styles/MovieDetails.css";
 import Modal from "../components/Modal";
@@ -133,7 +133,7 @@ function MovieDetails() {
         <div style={{ position: 'relative' }}>
           <img
             className="movie-details-image"
-            src={movie.image || '/posters/default.jpg'}
+            src={movie.image?.startsWith('/uploads') ? `http://localhost:3300${movie.image}` : (movie.image || '/posters/default.jpg')}
             alt={movie.title}
           />
 

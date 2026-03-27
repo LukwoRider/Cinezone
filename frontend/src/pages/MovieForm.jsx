@@ -1,5 +1,6 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
+import { FiCamera } from "react-icons/fi";
 import "../styles/MovieForm.css";
 import "../styles/global.css";
 import { useToast } from "../contexts/ToastContext";
@@ -16,9 +17,12 @@ function MovieForm({ onSuccess, id: propId }) {
     release_year: "",
     rating: "",
     category_id: "",
-    image: "",
     synopsis: ""
   });
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const [loading, setLoading] = useState(actualId ? true : false);
   const [error, setError] = useState(null);
@@ -49,9 +53,15 @@ function MovieForm({ onSuccess, id: propId }) {
           release_year: data.release_year,
           rating: data.rating,
           category_id: data.category_id,
-          image: data.image || "",
           synopsis: data.synopsis || ""
         });
+        // Show existing image as preview
+        if (data.image) {
+          const src = data.image.startsWith('/uploads')
+            ? `http://localhost:3300${data.image}`
+            : data.image;
+          setImagePreview(src);
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -65,6 +75,13 @@ function MovieForm({ onSuccess, id: propId }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const validateRating = value => {
     const num = Number(value);
     return !isNaN(num) && num >= 0 && num <= 10;
@@ -75,8 +92,12 @@ function MovieForm({ onSuccess, id: propId }) {
     setError(null);
 
     // Validation
-    if (!form.title || !form.director || !form.release_year || !form.rating || !form.category_id || !form.image) {
+    if (!form.title || !form.director || !form.release_year || !form.rating || !form.category_id) {
       setError("Tous les champs sont requis");
+      return;
+    }
+    if (!actualId && !imageFile && !imagePreview) {
+      setError("Une image est requise");
       return;
     }
     if (!validateRating(form.rating)) {
@@ -89,23 +110,26 @@ function MovieForm({ onSuccess, id: propId }) {
       const url = actualId ? `http://localhost:3300/movies/${actualId}` : "http://localhost:3300/movies";
       const method = actualId ? "PUT" : "POST";
 
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("director", form.director);
+      formData.append("release_year", Number(form.release_year));
+      formData.append("rating", Number(form.rating));
+      formData.append("category_id", Number(form.category_id));
+      formData.append("synopsis", form.synopsis);
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: form.title,
-          director: form.director,
-          release_year: Number(form.release_year),
-          rating: Number(form.rating),
-          category_id: Number(form.category_id),
-          image: form.image,
-          synopsis: form.synopsis
-        }),
+        body: formData,
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Impossible d’enregistrer le film");
+        throw new Error(data.error || "Impossible d'enregistrer le film");
       }
 
       showToast(actualId ? "Film modifié avec succès !" : "Film ajouté avec succès !", "success");
@@ -206,16 +230,29 @@ function MovieForm({ onSuccess, id: propId }) {
           </select>
         </label>
 
-        <label>
-          URL de l’image :
+        <label>Affiche du film :</label>
+        <div className="movie-image-upload" onClick={() => fileInputRef.current?.click()}>
+          {imagePreview ? (
+            <img src={imagePreview} alt="Aperçu" className="movie-image-preview" />
+          ) : (
+            <div className="movie-image-placeholder">
+              <FiCamera size={32} />
+              <span>Cliquez pour ajouter une image</span>
+            </div>
+          )}
           <input
-            type="text"
-            name="image"
-            value={form.image}
-            onChange={handleChange}
-            required
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
           />
-        </label>
+        </div>
+        {imagePreview && (
+          <p className="movie-image-hint" onClick={() => fileInputRef.current?.click()}>
+            Cliquez sur l'image pour la changer
+          </p>
+        )}
 
         <button className="edit-button" type="submit" disabled={loading}>
           {loading ? (actualId ? "Modification en cours..." : "Ajout en cours...") : (actualId ? "Modifier le film" : "Ajouter le film")}

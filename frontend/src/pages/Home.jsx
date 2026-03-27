@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../styles/home.css";
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import Modal from "../components/Modal";
@@ -250,7 +250,7 @@ function Home() {
                     {favorites.includes(Number(movie.id)) ? <FaHeart /> : <FiHeart />}
                   </span>
                 )}
-                <img className="movie-image" src={movie.image || '/posters/default.jpg'} alt={movie.title} />
+                <img className="movie-image" src={movie.image?.startsWith('/uploads') ? `http://localhost:3300${movie.image}` : (movie.image || '/posters/default.jpg')} alt={movie.title} />
                 <span className="movie-rating">
                   <FaStar className="star-icon" />{movie.rating}
                 </span>
