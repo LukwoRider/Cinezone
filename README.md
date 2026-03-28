@@ -5,11 +5,16 @@ Cinezone est une plateforme moderne de films. Elle permet aux utilisateurs de pa
 ## 1 Fonctionnalités
 - **Parcours public** : liste et détail des films, filtre multi-critères, recherche, infinite scroll.
 - **Comptes et authentification** : inscription, login, persistance JWT, hachage des mots de passe, photo de profil et rafraîchissement, déconnexion.
-- **Espace membre** : Favoris, notes.
-- **Admin** : CRUD films, Catégories, dashboard, gestion des utilisateurs.
+- **Espace membre** : Favoris, commentaires et notes.
+- **Admin** : CRUD films, catégories, dashboard, gestion des utilisateurs.
 - **Qualité** : tests unitaires, tests E2E, CI/CD.
 - **DevOps** : Dockerisation, CI/CD.
 - **Mode Sombre** : Interface élégante et moderne avec des micro-animations.
+
+## 1.1 Feature avancée
+- **Intégration TMDB** : Recherche et préremplissage automatique des films depuis The Movie Database lors de la création.
+- **Système de commentaire** : Pour les utilisateurs connectes avec un commentaire unique par film permettant de le noter.
+- **Système de notes** : Une note initial est mis en place a la création du film qui est ensuite modifier en calculant la moyenne avec les commentaires.
 
 ## 2 Technologies Utilisées
 
@@ -26,7 +31,8 @@ Cinezone est une plateforme moderne de films. Elle permet aux utilisateurs de pa
 - **MySQL** : Base de données relationnelle pour la persistance des données.
 - **JWT (JSON Web Tokens)** : Sécurisation des routes et sessions utilisateurs.
 - **Bcrypt** : Hachage sécurisé des mots de passe.
-- **Multer** : Gestion de l'upload des fichiers (avatars).
+- **Multer** : Gestion de l'upload des fichiers (avatars et affiches de films).
+- **TMDB API** : Intégration avec The Movie Database pour la recherche et le préremplissage des films.
 
 ### DevOps & Outils
 - **Docker & Docker Compose** : Conteneurisation complète pour un environnement de développement et de production identique.
@@ -38,12 +44,21 @@ Cinezone est une plateforme moderne de films. Elle permet aux utilisateurs de pa
 
 ### Prérequis
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé et lancé.
+- [TMDB](https://www.themoviedb.org/signup) compte créer pour obtenir une clé API.
 
 ### Clonage du projet
 ```bash
 git clone https://github.com/LukwoRider/Cinezone.git
 cd Cinezone
 ```
+
+### Configuration de la clé TMDB
+Avant de lancer le projet, vous devez obtenir une clé API TMDB :
+1. Créez un compte sur [themoviedb.org](https://www.themoviedb.org/signup)
+2. Allez dans **Paramètres > API** pour obtenir votre clé API (v3 auth)
+3. Ajoutez votre clé dans le fichier `backend/.env` (variable `TMDB_API_KEY`)
+
+> voir configuration 4 pour la création du .env.
 
 ### Lancement avec Docker
 Une seule commande est nécessaire pour lancer tout l'écosystème (BDD, Backend, Frontend, phpMyAdmin) :
@@ -76,6 +91,8 @@ DB_NAME=cinezone
 
 JWT_SECRET=your_super_secret_key_here
 JWT_EXPIRES_IN=24h
+
+TMDB_API_KEY=your_tmdb_api_key_here
 ```
 
 ---
@@ -117,8 +134,9 @@ npm run cypress:run
 
 ## 6 Remarques et Suggestions
 
-### Remarques : 
-1. **Gestion des images des films** : J'ai fait le choix d'utiliser des liens URL pour l'upload des images des films dans le but de ne pas alourdir le projet.
+### Remarques :
+1. **Gestion des images des films** : Les affiches de films sont uploadées localement dans `backend/uploads/films/`. Lors de l'utilisation de TMDB, l'affiche de film' est automatiquement téléchargé et stocké sur le serveur.
+2. **Intégration TMDB** : La recherche TMDB est disponible uniquement lors de la création d'un film. Elle prérempli le titre, le réalisateur, l'année, le synopsis, la note et l'affiche.
 
 ### Ce qui serait prévu pour la V2 :
 1. **Récupération de mot de passe** : Une fonctionnalité de réinitialisation en cas d'oubli.

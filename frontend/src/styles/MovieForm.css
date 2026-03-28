@@ -22,3 +22,194 @@
   border: none;
   margin-top: 0.25rem;
 }
+
+/* Movie image upload styles */
+.movie-image-upload {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 2/3;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s;
+}
+
+.movie-image-upload:hover {
+  border-color: var(--primary);
+}
+
+.movie-image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.movie-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.movie-image-hint {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.movie-image-hint:hover {
+  color: var(--primary);
+}
+
+/* ===== TMDB Search Styles ===== */
+.tmdb-search-container {
+  position: relative;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.tmdb-search-container > label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--white);
+}
+
+.tmdb-search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tmdb-search-icon {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.tmdb-search-input {
+  width: 100%;
+  padding: 0.6rem 0.6rem 0.6rem 2.4rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+.tmdb-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.tmdb-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.tmdb-spinner {
+  position: absolute;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: tmdb-spin 0.6s linear infinite;
+}
+
+@keyframes tmdb-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Dropdown */
+.tmdb-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: #1e1e2e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  list-style: none;
+  padding: 0;
+}
+
+.tmdb-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tmdb-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.tmdb-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tmdb-dropdown-poster {
+  width: 36px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.tmdb-dropdown-poster.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+}
+
+.tmdb-dropdown-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.tmdb-dropdown-title {
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tmdb-dropdown-year {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.tmdb-no-results {
+  padding: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+}

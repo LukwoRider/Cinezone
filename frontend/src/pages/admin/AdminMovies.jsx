@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import "../../styles/AdminMovies.css";
@@ -106,7 +106,7 @@ function AdminMovies() {
                             <li key={movie.id} className="movie-list-item">
                                 <div className="movie-info">
                                     {movie.image ? (
-                                        <img src={movie.image} alt={movie.title} className="movie-thumbnail" />
+                                        <img src={movie.image?.startsWith('/uploads') ? `http://localhost:3300${movie.image}` : movie.image} alt={movie.title} className="movie-thumbnail" />
                                     ) : (
                                         <div className="movie-thumbnail placeholder">No Img</div>
                                     )}
