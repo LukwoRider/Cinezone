@@ -8,8 +8,19 @@ import reviewsRouter from "./src/routes/reviews.routes.js";
 import statsRouter from "./src/routes/stats.routes.js";
 import usersRouter from "./src/routes/users.routes.js";
 import tmdbRouter from "./src/routes/tmdb.routes.js";
+import fs from "fs";
+import path from "path";
 
 const app = express();
+
+// Ensure upload directories exist
+const uploadDirs = ['uploads/films', 'uploads/avatars'];
+uploadDirs.forEach(dir => {
+  const fullPath = path.join(process.cwd(), dir);
+  if (!fs.existsSync(fullPath)) {
+    fs.mkdirSync(fullPath, { recursive: true });
+  }
+});
 
 // Middleware setup
 app.use(cors());
