@@ -1,3 +1,9 @@
 .vscode/
 node_modules/
 .env
+
+# Uploaded images
+backend/uploads/avatars/*
+!backend/uploads/avatars/.gitkeep
+backend/uploads/films/*
+!backend/uploads/films/.gitkeep

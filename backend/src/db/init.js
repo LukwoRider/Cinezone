@@ -35,6 +35,7 @@ export async function initializeDatabase() {
         director VARCHAR(100) NOT NULL,
         release_year INT NOT NULL,
         rating DECIMAL(3,1) DEFAULT 0,
+        initial_rating DECIMAL(3,1) DEFAULT 0,
         category_id INT DEFAULT NULL,
         image VARCHAR(255) DEFAULT '/posters/default.jpg',
         synopsis TEXT NOT NULL,

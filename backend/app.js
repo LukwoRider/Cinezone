@@ -7,6 +7,7 @@ import favoritesRouter from "./src/routes/favorites.routes.js";
 import reviewsRouter from "./src/routes/reviews.routes.js";
 import statsRouter from "./src/routes/stats.routes.js";
 import usersRouter from "./src/routes/users.routes.js";
+import tmdbRouter from "./src/routes/tmdb.routes.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/categories", categoriesRouter);
 app.use("/reviews", reviewsRouter);
 app.use("/stats", statsRouter);
 app.use("/users", usersRouter);
+app.use("/tmdb", tmdbRouter);
 
 // Health check route
 app.get("/test", (_req, res) => {
