@@ -110,12 +110,16 @@ Vous pouvez vous créer un compte utilisateur en vous inscrivant sur le site ou 
 
 ## 5 Lancer les Tests
 
+### Installation des dépendances
+```bash
+npm install
+```
+
 ### Tests Backend (Unitaires)
 Les tests du backend utilisent Jest. Pour les lancer :
 
 ```bash
 cd backend
-npm install
 npm test
 ```
 
@@ -123,7 +127,6 @@ npm test
 Cypress est utilisé pour les tests de bout en bout.
 ```bash
 cd frontend
-npm install
 # Pour ouvrir l'interface de test :
 npm run cypress:open
 # Pour lancer les tests en mode headless :
