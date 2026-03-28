@@ -35,15 +35,8 @@ services:
       dockerfile: Dockerfile
     container_name: cinezone-backend
     restart: always
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: cinezone_user
-      DB_PASSWORD: cinezone_password
-      DB_NAME: cinezone
-      JWT_SECRET: supersecretjwtkey
-      JWT_EXPIRES_IN: "24h"
-      # If you use Multer uploads, make sure to mount a volume to persist them
+    env_file:
+      - ./backend/.env
     ports:
       - "3300:3000"
     volumes:

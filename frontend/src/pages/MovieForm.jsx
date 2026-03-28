@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import { FiCamera } from "react-icons/fi";
+import { FiCamera, FiSearch } from "react-icons/fi";
 import "../styles/MovieForm.css";
 import "../styles/global.css";
 import { useToast } from "../contexts/ToastContext";
@@ -22,11 +22,21 @@ function MovieForm({ onSuccess, id: propId }) {
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  // Stores the path of a TMDB-downloaded image (already on server)
+  const [serverImagePath, setServerImagePath] = useState(null);
   const fileInputRef = useRef(null);
 
   const [loading, setLoading] = useState(actualId ? true : false);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
+
+  // TMDB search state
+  const [tmdbQuery, setTmdbQuery] = useState("");
+  const [tmdbResults, setTmdbResults] = useState([]);
+  const [tmdbLoading, setTmdbLoading] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const tmdbTimeout = useRef(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     fetch("http://localhost:3300/categories")
@@ -55,12 +65,14 @@ function MovieForm({ onSuccess, id: propId }) {
           category_id: data.category_id,
           synopsis: data.synopsis || ""
         });
-        // Show existing image as preview
         if (data.image) {
           const src = data.image.startsWith('/uploads')
             ? `http://localhost:3300${data.image}`
             : data.image;
           setImagePreview(src);
+          if (data.image.startsWith('/uploads')) {
+            setServerImagePath(data.image);
+          }
         }
         setLoading(false);
       })
@@ -70,6 +82,88 @@ function MovieForm({ onSuccess, id: propId }) {
       });
   }, [actualId]);
 
+  // Close TMDB dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // TMDB search with debounce
+  const handleTmdbSearch = (value) => {
+    setTmdbQuery(value);
+    if (tmdbTimeout.current) clearTimeout(tmdbTimeout.current);
+
+    if (value.trim().length < 2) {
+      setTmdbResults([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    tmdbTimeout.current = setTimeout(async () => {
+      setTmdbLoading(true);
+      try {
+        const res = await fetch(`http://localhost:3300/tmdb/search?q=${encodeURIComponent(value)}`);
+        const data = await res.json();
+        setTmdbResults(data);
+        setShowDropdown(true);
+      } catch (err) {
+        console.error("TMDB search error:", err);
+      } finally {
+        setTmdbLoading(false);
+      }
+    }, 400);
+  };
+
+  // Select a TMDB movie and auto-fill the form
+  const handleSelectTmdb = async (tmdbMovie) => {
+    setShowDropdown(false);
+    setTmdbQuery("");
+    setTmdbLoading(true);
+
+    try {
+      const res = await fetch(`http://localhost:3300/tmdb/movie/${tmdbMovie.tmdb_id}`);
+      const data = await res.json();
+
+      // Try to match the TMDB genre to an existing category
+      let matchedCategoryId = "";
+      if (data.genre && categories.length > 0) {
+        const match = categories.find(
+          c => c.name.toLowerCase() === data.genre.toLowerCase()
+        );
+        if (match) matchedCategoryId = match.id;
+      }
+
+      setForm({
+        title: data.title || "",
+        director: data.director || "",
+        release_year: data.release_year || "",
+        rating: data.rating || "",
+        category_id: matchedCategoryId,
+        synopsis: data.synopsis || ""
+      });
+
+      // Use the downloaded poster image
+      if (data.image) {
+        setServerImagePath(data.image);
+        setImagePreview(`http://localhost:3300${data.image}`);
+        setImageFile(null);
+      } else if (data.poster_preview) {
+        setImagePreview(data.poster_preview);
+      }
+
+      showToast("Film prérempli depuis TMDB !", "success");
+    } catch (err) {
+      console.error("TMDB detail error:", err);
+      showToast("Erreur lors de la récupération des détails", "error");
+    } finally {
+      setTmdbLoading(false);
+    }
+  };
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -79,6 +173,7 @@ function MovieForm({ onSuccess, id: propId }) {
     const file = e.target.files[0];
     if (!file) return;
     setImageFile(file);
+    setServerImagePath(null);
     setImagePreview(URL.createObjectURL(file));
   };
 
@@ -91,12 +186,11 @@ function MovieForm({ onSuccess, id: propId }) {
     e.preventDefault();
     setError(null);
 
-    // Validation
     if (!form.title || !form.director || !form.release_year || !form.rating || !form.category_id) {
       setError("Tous les champs sont requis");
       return;
     }
-    if (!actualId && !imageFile && !imagePreview) {
+    if (!actualId && !imageFile && !serverImagePath && !imagePreview) {
       setError("Une image est requise");
       return;
     }
@@ -120,6 +214,9 @@ function MovieForm({ onSuccess, id: propId }) {
 
       if (imageFile) {
         formData.append("image", imageFile);
+      } else if (serverImagePath) {
+        // Image already on the server (e.g. from TMDB download)
+        formData.append("image", serverImagePath);
       }
 
       const res = await fetch(url, {
@@ -152,6 +249,53 @@ function MovieForm({ onSuccess, id: propId }) {
     <div className="add-movie">
 
       <h1>{actualId ? "Modifier le film" : "Ajouter un film"}</h1>
+
+      {/* TMDB Search (only for creation) */}
+      {!actualId && (
+        <div className="tmdb-search-container" ref={dropdownRef}>
+          <label>Rechercher sur TMDB :</label>
+          <div className="tmdb-search-input-wrapper">
+            <FiSearch className="tmdb-search-icon" />
+            <input
+              type="text"
+              value={tmdbQuery}
+              onChange={(e) => handleTmdbSearch(e.target.value)}
+              placeholder="Tapez le nom d'un film..."
+              className="tmdb-search-input"
+            />
+            {tmdbLoading && <span className="tmdb-spinner" />}
+          </div>
+
+          {showDropdown && tmdbResults.length > 0 && (
+            <ul className="tmdb-dropdown">
+              {tmdbResults.map(movie => (
+                <li
+                  key={movie.tmdb_id}
+                  className="tmdb-dropdown-item"
+                  onClick={() => handleSelectTmdb(movie)}
+                >
+                  {movie.poster ? (
+                    <img src={movie.poster} alt={movie.title} className="tmdb-dropdown-poster" />
+                  ) : (
+                    <div className="tmdb-dropdown-poster placeholder">?</div>
+                  )}
+                  <div className="tmdb-dropdown-info">
+                    <span className="tmdb-dropdown-title">{movie.title}</span>
+                    <span className="tmdb-dropdown-year">
+                      {movie.release_date ? movie.release_date.slice(0, 4) : "—"}
+                      {movie.rating ? ` • ⭐ ${movie.rating.toFixed(1)}` : ""}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {showDropdown && tmdbResults.length === 0 && !tmdbLoading && tmdbQuery.length >= 2 && (
+            <div className="tmdb-dropdown tmdb-no-results">Aucun résultat trouvé</div>
+          )}
+        </div>
+      )}
 
       {error && <p className="status error">{error}</p>}
 
