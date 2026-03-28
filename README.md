@@ -60,12 +60,6 @@ Avant de lancer le projet, vous devez obtenir une clé API TMDB :
 
 > voir configuration 4 pour la création du .env.
 
-### Lancement avec Docker
-Une seule commande est nécessaire pour lancer tout l'écosystème (BDD, Backend, Frontend, phpMyAdmin) :
-```bash
-docker-compose up -d --build
-```
-
 ## 4 Configuration (.env)
 
 Le projet utilise des variables d'environnement pour configurer la base de données et la sécurité. Bien que Docker soit préconfiguré, il est essentiel de créer votre propre fichier `.env` pour un environnement hors Docker ou pour personnaliser vos secrets.
@@ -97,6 +91,12 @@ TMDB_API_KEY=your_tmdb_api_key_here
 
 ---
 
+## 5 Lancement avec Docker
+Une seule commande est nécessaire pour lancer tout l'écosystème (BDD, Backend, Frontend, phpMyAdmin) :
+```bash
+docker-compose up -d --build
+```
+
 Une fois lancé :
 - **Frontend** : [http://localhost:8080](http://localhost:8080)
 - **Backend (API)** : [http://localhost:3300](http://localhost:3300)
@@ -108,18 +108,14 @@ Vous pouvez vous créer un compte utilisateur en vous inscrivant sur le site ou 
 - **Email** : `admin@cinezone.com`
 - **Mot de passe** : `admin123`
 
-## 5 Lancer les Tests
-
-### Installation des dépendances
-```bash
-npm install
-```
+## 6 Lancer les Tests
 
 ### Tests Backend (Unitaires)
 Les tests du backend utilisent Jest. Pour les lancer :
 
 ```bash
 cd backend
+npm install
 npm test
 ```
 
@@ -127,6 +123,7 @@ npm test
 Cypress est utilisé pour les tests de bout en bout.
 ```bash
 cd frontend
+npm install
 # Pour ouvrir l'interface de test :
 npm run cypress:open
 # Pour lancer les tests en mode headless :
@@ -135,7 +132,7 @@ npm run cypress:run
 
 ---
 
-## 6 Remarques et Suggestions
+## 7 Remarques et Suggestions
 
 ### Remarques :
 1. **Gestion des images des films** : Les affiches de films sont uploadées localement dans `backend/uploads/films/`. Lors de l'utilisation de TMDB, l'affiche de film' est automatiquement téléchargé et stocké sur le serveur.
@@ -144,3 +141,4 @@ npm run cypress:run
 ### Ce qui serait prévu pour la V2 :
 1. **Récupération de mot de passe** : Une fonctionnalité de réinitialisation en cas d'oubli.
 2. **Observabilité** : toasts, logs.
+3. **Supression categorie**: Empêcher la suppression d'une catégorie si elle est associée à un film ou demander supprimer tout les films de la catégorie.
